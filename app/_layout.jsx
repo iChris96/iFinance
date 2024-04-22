@@ -1,20 +1,25 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Stack } from "expo-router";
+import React from "react";
+import { StyleSheet } from "react-native";
+import { RecordsProvider } from "./store/RecordContext";
 
-export default function App() {
+const RootLayout = () => {
   return (
-    <View style={styles.container}>
-      <Text>Hello world!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <RecordsProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="record"
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: "white" },
+          }}
+        />
+      </Stack>
+    </RecordsProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default RootLayout;
+
+const styles = StyleSheet.create({});
