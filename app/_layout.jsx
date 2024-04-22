@@ -13,6 +13,7 @@ const RootLayout = () => {
           options={{
             headerShown: true,
             headerStyle: { backgroundColor: "white" },
+            title: "Record",
           }}
         />
       </Stack>

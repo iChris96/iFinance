@@ -3,10 +3,10 @@ import React from "react";
 import { Link } from "expo-router";
 
 const NavigatorButton = (props) => {
-  const { title = "Navigate", href } = props;
+  const { title = "Navigate", href, params, backgroundColor = "black" } = props;
   return (
-    <Link href={href} asChild>
-      <Pressable style={styles.button}>
+    <Link href={{ pathname: href, params }} asChild>
+      <Pressable style={{ ...styles.button, backgroundColor }}>
         <Text style={styles.text}>{title}</Text>
       </Pressable>
     </Link>
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "black",
   },
   text: {
     fontSize: 16,

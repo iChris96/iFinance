@@ -44,15 +44,44 @@ export default function App({}) {
               }}
             >
               <Pressable onLongPress={() => removeRecord(it)}>
-                <Text
-                  style={{ color: "white", fontWeight: "bold" }}
-                >{`${it.title} - ${it.amount}$`}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    width: "100%",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text
+                    style={{ color: "white", fontWeight: "bold" }}
+                  >{`${it.title}`}</Text>
+                  <Text
+                    style={{ color: "white", fontWeight: "bold" }}
+                  >{`${it.amount}$`}</Text>
+                </View>
               </Pressable>
             </View>
           ))}
       </ScrollView>
-      <View>
-        <NavigatorButton href="/record" title="New Record" />
+      <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-around",
+          padding: 4,
+        }}
+      >
+        <NavigatorButton
+          href="/record"
+          title="New Income"
+          params={{ mode: "income" }}
+          backgroundColor={colors.success}
+        />
+        <NavigatorButton
+          href="/record"
+          title="New Expense"
+          params={{ mode: "expense" }}
+          backgroundColor={colors.warning}
+        />
       </View>
     </SafeAreaView>
   );
@@ -63,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.backgroundColor,
     alignItems: "center",
-    justifyContent: "top",
+    justifyContent: "space-between",
   },
   listContainer: {
     marginVertical: 20,

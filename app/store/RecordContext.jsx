@@ -12,11 +12,16 @@ export const RecordsProvider = ({ children }) => {
   const [records, setRecords] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
 
-  const newRecord = (title, amount) => {
+  const newRecord = (title, amount, mode) => {
     console.log({ title, amount });
     setRecords((it) => [
       ...it,
-      { id: generateUniqueId(), amount, title, created: Date.now() },
+      {
+        id: generateUniqueId(),
+        amount: mode === "income" ? amount : `-${amount}`,
+        title,
+        created: Date.now(),
+      },
     ]);
   };
 
