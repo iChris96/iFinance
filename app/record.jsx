@@ -21,12 +21,11 @@ const RecordView = () => {
   const { newRecord } = useContext(RecordContext);
 
   const params = useLocalSearchParams();
-  const { mode } = params;
-  const isIncome = mode === "income" ? true : false;
+  const { mode, headerTitle, bg, saveButtonTitle } = params;
 
   React.useEffect(() => {
     navigation.setOptions({
-      title: mode === "income" ? "New Income" : "New Expense",
+      title: headerTitle,
     });
   }, [navigation]);
 
@@ -34,7 +33,7 @@ const RecordView = () => {
     <SafeAreaView
       style={{
         ...styles.container,
-        backgroundColor: isIncome ? colors.success : colors.warning,
+        backgroundColor: bg,
       }}
     >
       <StatusBar style="auto" />
@@ -67,7 +66,7 @@ const RecordView = () => {
             }
             navigation.goBack();
           }}
-          title={isIncome ? "Save Income" : "Save Expense"}
+          title={saveButtonTitle}
         />
       </KeyboardAvoidingView>
     </SafeAreaView>
