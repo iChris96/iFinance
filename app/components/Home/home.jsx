@@ -1,45 +1,25 @@
-import React from "react";
+import { Link, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import colors from "../../consts/colors";
 import { textStyles } from "../../consts/text";
+import BillingController from "../../controller/billingController";
 import Button from "../button";
 import BillItem from "./billItem";
 
-export default function Home() {
-  const myBills = [
-    {
-      id: "01",
-      title: "Amx Plat",
-      created: "09/01/2023",
-      state: "open",
-    },
-    {
-      id: "02",
-      title: "Amx Green",
-      created: "09/01/2023",
-      state: "archive",
-    },
-    {
-      id: "02",
-      title: "Amx Gold Octubre",
-      created: "09/01/2023",
-      state: "archive",
-    },
-    {
-      id: "03",
-      title: "NU Mayo",
-      created: "09/01/2023",
-      state: "archive",
-    },
-    {
-      id: "03",
-      title: "NU Abril",
-      created: "09/01/2023",
-      state: "archive",
-    },
-  ];
+const Home = () => {
+  const [controller] = useState(new BillingController());
+  const [billingItems, setBillingItems] = useState([]);
+  const router = useRouter();
 
-  const onPressItem = () => {};
+  const onPressItem = (bill) => {
+    router.push({ pathname: `/billings/${bill.id}` });
+  };
+
+  useEffect(() => {
+    setBillingItems(controller.getAllItems());
+  }, [controller]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -48,7 +28,7 @@ export default function Home() {
       <View style={styles.gridListContainer}>
         <View style={styles.gridListSubContainer}>
           <FlatList
-            data={myBills}
+            data={billingItems}
             numColumns={2}
             renderItem={({ item }) => (
               <BillItem bill={item} onPress={onPressItem} />
@@ -61,15 +41,20 @@ export default function Home() {
       <View style={styles.footer}>
         <Button title="Create new billing" />
       </View>
+      <Link href="/billings/bacon">View user</Link>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.backgroundColorLight,
     flex: 1,
     width: "100%",
-    backgroundColor: colors.backgroundColorLight,
+  },
+  footer: {
+    gap: 4,
+    padding: 10,
   },
   gridListContainer: {
     flex: 1,
@@ -79,12 +64,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   header: {
+    alignItems: "center",
     backgroundColor: colors.statusBar,
     height: 120,
-    alignItems: "center",
-  },
-  footer: {
-    padding: 10,
-    gap: 4,
   },
 });
+
+export default Home;

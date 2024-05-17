@@ -4,9 +4,8 @@ import { getValueFromStorage, handleSaveValue } from "../utils/localStorage";
 
 const RecordContext = createContext();
 
-const generateUniqueId = () => {
-  return Date.now() + Math.random().toString(36).substring(2, 10);
-};
+const generateUniqueId = () =>
+  Date.now() + Math.random().toString(36).substring(2, 10);
 
 export const RecordsProvider = ({ children }) => {
   const [records, setRecords] = useState([]);
