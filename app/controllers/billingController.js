@@ -24,16 +24,22 @@ const myBills = [
     state: "archive",
   },
   {
-    id: "03",
+    id: "04",
     title: "NU Abril",
     created: "09/01/2023",
     state: "archive",
   },
 ];
 
-export default class BillingController {
+class BillingController {
   constructor() {
-    this.items = myBills;
+    if (!BillingController.instance) {
+      this.items = myBills;
+      BillingController.instance = this;
+    }
+
+    // eslint-disable-next-line no-constructor-return
+    return BillingController.instance;
   }
 
   addItem(item) {
@@ -41,22 +47,25 @@ export default class BillingController {
   }
 
   removeItem(index) {
-    if (index >= 0 && index < this.items.length) {
-      this.items.splice(index, 1);
-    } else {
-      throw new Error("Índice fuera de rango");
+    if (index < 0 || index > this.items.length) {
+      throw new Error("index out of range..");
     }
+    this.items.splice(index, 1);
   }
 
   getItem(index) {
     if (index >= 0 && index < this.items.length) {
       return this.items[index];
-    } else {
-      throw new Error("Índice fuera de rango");
     }
+    throw new Error("index out of range..");
   }
 
   getAllItems() {
     return this.items;
   }
 }
+
+const instance = new BillingController();
+Object.freeze(instance);
+
+export default instance;
