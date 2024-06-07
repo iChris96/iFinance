@@ -1,24 +1,24 @@
-import { Link, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import colors from "../../consts/colors";
+import { PATHS, buildPath } from "../../consts/paths";
 import { textStyles } from "../../consts/text";
-import BillingController from "../../controller/billingController";
+import BillingController from "../../controllers/billingController";
+import useNavigation from "../../hooks/useNavigation";
 import Button from "../button";
 import BillItem from "./billItem";
 
 const Home = () => {
-  const [controller] = useState(new BillingController());
   const [billingItems, setBillingItems] = useState([]);
-  const router = useRouter();
+  const { navigateWithPath } = useNavigation();
 
   const onPressItem = (bill) => {
-    router.push({ pathname: `/billings/${bill.id}` });
+    navigateWithPath(buildPath(PATHS.BILL, bill.id));
   };
 
   useEffect(() => {
-    setBillingItems(controller.getAllItems());
-  }, [controller]);
+    setBillingItems(BillingController.getAllItems());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -41,7 +41,6 @@ const Home = () => {
       <View style={styles.footer}>
         <Button title="Create new billing" />
       </View>
-      <Link href="/billings/bacon">View user</Link>
     </View>
   );
 };
