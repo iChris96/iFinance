@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={textStyles.boldText}>Finances App</Text>
+        <Text style={textStyles.headerText}>iFinances</Text>
       </View>
       <View style={styles.gridListContainer}>
         <View style={styles.gridListSubContainer}>
@@ -39,7 +39,7 @@ const Home = () => {
       </View>
 
       <View style={styles.footer}>
-        <Button title="Create new billing" />
+        <Button title="Create new billing" onPress={() => {}} />
       </View>
     </View>
   );

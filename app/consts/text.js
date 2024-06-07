@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
 export const textStyles = StyleSheet.create({
-  boldText: {
+  headerText: {
+    fontSize: 18,
     fontWeight: "bold",
   },
   italicText: {

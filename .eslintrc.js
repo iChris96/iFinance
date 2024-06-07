@@ -32,6 +32,7 @@ module.exports = {
     ],
     "object-curly-newline": "off",
     "implicit-arrow-linebreak": "off",
+    "react/require-default-props": "off",
   },
   settings: {
     react: {

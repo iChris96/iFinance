@@ -2,8 +2,12 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 
-const NavigatorButton = (props) => {
-  const { title = "Navigate", href, params, backgroundColor = "black" } = props;
+const NavigatorButton = ({
+  title = "Navigate",
+  href,
+  params,
+  backgroundColor = "black",
+}) => {
   return (
     <Link href={{ pathname: href, params }} asChild>
       <Pressable style={{ ...styles.button, backgroundColor }}>
