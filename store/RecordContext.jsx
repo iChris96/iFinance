@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 import { getValueFromStorage, handleSaveValue } from "../utils/localStorage";
 
 const RecordContext = createContext();
@@ -55,8 +55,11 @@ export const RecordsProvider = ({ children }) => {
     loadRecords();
   }, []);
 
+  console.log({ records });
+
   return (
     <RecordContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{ records, newRecord, removeRecord, isSaving }}
     >
       {children}
@@ -66,4 +69,6 @@ export const RecordsProvider = ({ children }) => {
 
 export default RecordContext;
 
-const styles = StyleSheet.create({});
+RecordsProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

@@ -1,19 +1,25 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
-import Home from "./components/Home/home";
+import { View, Text, StyleSheet } from "react-native";
 
-const App = () => (
-  <SafeAreaView style={{ ...styles.container }}>
-    <Home />
-  </SafeAreaView>
-);
+import NavigatorButton from "../components/NavigatorButton";
+
+const App = () => {
+  const user = {};
+
+  return (
+    <View style={{ ...styles.container }}>
+      <Text>{`User: ${JSON.stringify(user)}`}</Text>
+      <NavigatorButton href="/profile" title="Navigate to profile" />
+    </View>
+  );
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
     flex: 1,
     justifyContent: "space-between",
+    padding: 10,
   },
 });
-
-export default App;

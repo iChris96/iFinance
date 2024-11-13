@@ -1,37 +1,43 @@
 import { Stack } from "expo-router";
+import { SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
-import { RecordsProvider } from "./store/RecordContext";
-import colors from "./consts/colors";
+import colors from "../consts/colors";
 
 const RootLayout = () => (
-  <RecordsProvider>
+  <SafeAreaView style={{ ...styles.container }}>
     <Stack>
       <Stack.Screen
         name="index"
         options={{
           headerStyle: { backgroundColor: colors.statusBar },
+          contentStyle: { backgroundColor: colors.white },
           title: "",
-          headerTransparent: true,
+          headerShown: false,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="billings/[bill]"
         options={{
           headerStyle: { backgroundColor: colors.statusBar },
           title: "",
           headerTransparent: true,
         }}
-      />
+      /> */}
       <Stack.Screen
-        name="record"
+        name="profile"
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: "white" },
-          title: "Record",
+          contentStyle: { backgroundColor: colors.white },
+          title: "My Profile",
         }}
       />
     </Stack>
-  </RecordsProvider>
+  </SafeAreaView>
 );
 
 export default RootLayout;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
