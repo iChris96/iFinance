@@ -33,6 +33,9 @@ module.exports = {
     "object-curly-newline": "off",
     "implicit-arrow-linebreak": "off",
     "react/require-default-props": "off",
+    "no-unused-vars": ["warn"],
+    "no-console": "off",
+    "comma-dangle": "off",
   },
   settings: {
     react: {
