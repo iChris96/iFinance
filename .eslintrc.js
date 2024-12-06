@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: ["airbnb", "plugin:react/recommended", "plugin:react-native/all"],
   parserOptions: {
@@ -19,10 +20,12 @@ module.exports = {
       { extensions: [".js", ".jsx", ".ts", ".tsx"] },
     ],
     "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
     "no-use-before-define": [
       "error",
       { functions: false, classes: true, variables: false },
     ],
+    "function-paren-newline": "off",
     "react/function-component-definition": [
       2,
       {

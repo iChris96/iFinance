@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import Constants from "expo-constants";
 
 const App = () => {
-  const user = {};
+  const [user, setUser] = React.useState();
   const [email, setEmail] = React.useState();
   const [password, setPassword] = React.useState();
 
@@ -25,7 +25,7 @@ const App = () => {
       );
       const responseJson = await response.json();
       const { access_token: token } = responseJson;
-      console.log({ token });
+      setUser(token);
     } catch (error) {
       console.error({ error });
     }
@@ -33,7 +33,7 @@ const App = () => {
 
   return (
     <View style={{ ...styles.container }}>
-      <Text>{`User: ${JSON.stringify(user)}`}</Text>
+      <Text>{`User: ${user}`}</Text>
       <View>
         <TextInput
           style={styles.input}
