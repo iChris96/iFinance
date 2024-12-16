@@ -31,7 +31,6 @@ export const SessionProvider = ({ children }) => {
     setSession(null);
   };
 
-  console.log("session provider on");
   return (
     <AuthContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values

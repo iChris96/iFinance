@@ -33,6 +33,7 @@ const myConfig = ({ config: appConfig }) => ({
     ...(appConfig.web || {}),
   },
   plugins: appConfig.plugins || ["expo-router"],
+  newArchEnabled: true,
   extra: {
     port: process.env.PORT,
     protocol: process.env.PROTOCOL,

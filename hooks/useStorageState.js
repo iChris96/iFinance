@@ -7,20 +7,20 @@ function useAsyncState(initialValue = [true, null]) {
 }
 
 export async function setStorageItemAsync(key, value) {
-  if (Platform.OS === "web") {
-    try {
+  try {
+    if (Platform.OS === "web") {
       if (value === null) {
         localStorage.removeItem(key);
       } else {
         localStorage.setItem(key, value);
       }
-    } catch (e) {
-      console.error("Local storage is unavailable:", e);
+    } else if (value == null) {
+      await SecureStore.deleteItemAsync(key);
+    } else {
+      await SecureStore.setItemAsync(key, value);
     }
-  } else if (value == null) {
-    await SecureStore.deleteItemAsync(key);
-  } else {
-    await SecureStore.setItemAsync(key, value);
+  } catch (e) {
+    console.error("Local storage is unavailable:", e);
   }
 }
 
@@ -30,18 +30,18 @@ export function useStorageState(key) {
 
   // Get
   useEffect(() => {
-    if (Platform.OS === "web") {
-      try {
+    try {
+      if (Platform.OS === "web") {
         if (typeof localStorage !== "undefined") {
           setState(localStorage.getItem(key));
         }
-      } catch (e) {
-        console.error("Local storage is unavailable:", e);
+      } else {
+        SecureStore.getItemAsync(key).then((value) => {
+          setState(value);
+        });
       }
-    } else {
-      SecureStore.getItemAsync(key).then((value) => {
-        setState(value);
-      });
+    } catch (e) {
+      console.error("Local storage is unavailable:", e);
     }
   }, [key]);
 
