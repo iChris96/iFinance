@@ -36,6 +36,7 @@ const myConfig = ({ config: appConfig }) => ({
   extra: {
     port: process.env.PORT,
     protocol: process.env.PROTOCOL,
+    baseURL: process.env.BASE_URL,
     router: {
       origin: false,
     },

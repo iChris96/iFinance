@@ -7,8 +7,6 @@ import colors from "../../consts/colors";
 const AppLayout = () => {
   const { session, isLoading } = useSession();
 
-  console.log({ session, isLoading });
-
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
     return <Text>Loading...</Text>;

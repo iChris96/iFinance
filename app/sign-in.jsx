@@ -13,19 +13,16 @@ const SignIn = () => {
   const onChangeEmail = (text) => setEmail(text);
   const onChangePassword = (text) => setPassword(text);
   const onSubmit = async () => {
-    const { protocol, port } = Constants.expoConfig.extra;
+    const { baseURL } = Constants.expoConfig.extra;
     try {
       const body = { email, password };
-      const response = await fetch(
-        `${protocol}://localhost:${port}/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch(`${baseURL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
       if (![200, 201].includes(response.status)) {
         throw new Error("Invalid Credentials");
       }
@@ -33,20 +30,20 @@ const SignIn = () => {
 
       const { access_token: token } = responseJson;
       signIn(token);
-      router.replace("/app");
     } catch (error) {
       console.log({ error });
       setErrorMessage(error.message);
     }
   };
 
-  if (session) {
-    router.replace("/app");
-  }
+  React.useEffect(() => {
+    if (session) {
+      router.replace("/app");
+    }
+  }, [session]);
 
   return (
     <View style={{ ...styles.container }}>
-      <Text>{`User: ${session}`}</Text>
       <View>
         <TextInput
           style={styles.input}
