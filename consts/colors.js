@@ -8,6 +8,7 @@ export default {
   success: "#5ee665",
   warning: "#f0c546",
   danger: "#e65e60",
+  purple: "rgb(104, 101, 238)",
   transparentDark: "rgba(0, 0, 0, 0.5)",
   statusBar: "#41bf82",
 };

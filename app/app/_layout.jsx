@@ -1,8 +1,10 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from "react";
 import { Text, SafeAreaView, StyleSheet } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "../../store/AuthContext";
 import colors from "../../consts/colors";
+import NavigatorButton from "../../components/NavigatorButton";
 
 const AppLayout = () => {
   const { session, isLoading } = useSession();
@@ -29,8 +31,8 @@ const AppLayout = () => {
           options={{
             headerStyle: { backgroundColor: colors.statusBar },
             contentStyle: { backgroundColor: colors.white },
-            title: "",
-            headerShown: false,
+            title: "My Budgets",
+            headerShown: true,
           }}
         />
         <Stack.Screen
@@ -39,6 +41,29 @@ const AppLayout = () => {
             contentStyle: { backgroundColor: colors.white },
             title: "My Profile",
           }}
+        />
+        <Stack.Screen
+          name="add-budget"
+          options={{
+            contentStyle: { backgroundColor: colors.white },
+            title: "Add budget",
+          }}
+        />
+        <Stack.Screen name="budget/[id]/index" options={{ title: "" }} />
+        <Stack.Screen
+          name="budget/[id]/update-budget"
+          options={{ title: "Update Budget" }}
+        />
+        <Stack.Screen
+          name="budget/[id]/add-transaction"
+          options={{
+            contentStyle: { backgroundColor: colors.white },
+            title: "Add Transaction",
+          }}
+        />
+        <Stack.Screen
+          name="budget/[id]/transaction/[id]/update-transaction"
+          options={{ title: "Update Transaction" }}
         />
       </Stack>
     </SafeAreaView>

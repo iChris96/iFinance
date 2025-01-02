@@ -4,14 +4,9 @@ import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import colors from "../consts/colors";
 
-const NavigatorButton = ({
-  title = "Navigate",
-  href,
-  params,
-  backgroundColor = "black",
-}) => (
+const NavigatorButton = ({ title = "Navigate", href, params }) => (
   <Link href={{ pathname: href, params }} asChild>
-    <Pressable style={{ ...styles.button, backgroundColor }}>
+    <Pressable style={{ ...styles.button }}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   </Link>
@@ -29,9 +24,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   text: {
-    color: colors.white,
+    color: colors.black,
     fontSize: 16,
-    fontWeight: "bold",
     letterSpacing: 0.25,
     lineHeight: 21,
   },
@@ -40,6 +34,5 @@ const styles = StyleSheet.create({
 NavigatorButton.propTypes = {
   href: PropTypes.string.isRequired,
   params: PropTypes.string,
-  backgroundColor: PropTypes.string,
   title: PropTypes.string,
 };
