@@ -44,7 +44,7 @@ const TransactionList = ({ transactions, onLongPress, onPress }) => {
         <Transaction
           transaction={item}
           onLongPress={() => onLongPress(item.id)}
-          onPress={() => onPress(item.id)}
+          onPress={() => onPress(item)}
         />
       )}
     />
@@ -75,7 +75,13 @@ const Budget = () => {
   );
 
   const addTransaction = () => {
-    router.push(`app/budget/${id}/add-transaction`);
+    router.push(
+      {
+        pathname: "./add-transaction",
+        params: { id },
+      },
+      { relativeToDirectory: true }
+    );
   };
 
   const onLongPress = (transactionId) => {
@@ -93,10 +99,14 @@ const Budget = () => {
     deleteTransactionCall();
   };
 
-  const onPress = (transactionId) => {
-    console.log({ transactionId });
+  const onPress = (item) => {
+    const { title, amount, type } = item;
     router.push(
-      `app/budget/${id}/transaction/${transactionId}/update-transaction`
+      {
+        pathname: "./update-transaction",
+        params: { transactionId: item.id, title, amount, type },
+      },
+      { relativeToDirectory: true }
     );
   };
 
@@ -124,8 +134,10 @@ const Budget = () => {
           title: `Budget: ${id}`,
           headerRight: () => (
             <NavigatorButton
-              href={`app/budget/${id}/update-budget`}
+              pathname="./update-budget"
               title="Edit"
+              params={{ id, title: budget?.title }}
+              relativeToDirectory
             />
           ),
         }}

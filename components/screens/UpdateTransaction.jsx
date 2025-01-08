@@ -10,34 +10,35 @@ import {
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 
-const AddTransaction = () => {
-  const [title, onChangeTitle] = React.useState("");
-  const [amount, onChangeAmount] = React.useState("");
+const UpdateTransaction = () => {
+  const params = useLocalSearchParams();
+  const [title, onChangeTitle] = React.useState(params?.title ?? "");
+  const [amount, onChangeAmount] = React.useState(params?.amount ?? "");
 
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const router = useRouter();
 
-  const [isExpense, setIsExpense] = React.useState(true);
+  const [isExpense, setIsExpense] = React.useState(
+    params?.type === "EXPENSE" ?? false
+  );
   const toggleSwitch = () => setIsExpense((previousState) => !previousState);
 
-  const { id } = useLocalSearchParams();
-
-  const onPressAddTransaction = () => {
+  const onPressUpdateTransaction = () => {
     if (!title) {
       setError("Title is missing");
       return;
     }
 
-    const addBudget = async () => {
+    const updateBudget = async () => {
       setLoading(true);
 
       try {
-        await ApiService.postCall("/transactions", {
+        await ApiService.patchCall(`/transactions/${params.transactionId}`, {
           title,
           amount,
           type: isExpense ? "EXPENSE" : "INCOME",
-          budgetId: id,
+          budgetId: params.id,
         });
         router.replace("/");
       } catch (err) {
@@ -48,7 +49,7 @@ const AddTransaction = () => {
       }
     };
 
-    addBudget();
+    updateBudget();
   };
 
   if (loading) {
@@ -79,13 +80,13 @@ const AddTransaction = () => {
         />
         <Text>{isExpense ? "EXPENSE" : "INCOME"}</Text>
       </View>
-      <Button title="Add" onPress={onPressAddTransaction} />
+      <Button title="Updatee" onPress={onPressUpdateTransaction} />
       {error && <Text>{error}</Text>}
     </View>
   );
 };
 
-export default AddTransaction;
+export default UpdateTransaction;
 
 const styles = StyleSheet.create({
   constainer: {

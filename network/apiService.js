@@ -62,6 +62,14 @@ class ApiService {
     return data;
   }
 
+  static async patchCall(path, body, headers = {}) {
+    const data = await ApiService.makeRequest(path, "PATCH", body, headers);
+    if (typeof data !== "object") {
+      throw new Error("Unexpected response format: expected JSON object");
+    }
+    return data;
+  }
+
   static async getCall(path, headers = {}) {
     const data = await ApiService.makeRequest(path, "GET", undefined, headers);
     if (typeof data !== "object") {

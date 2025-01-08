@@ -33,7 +33,6 @@ const Budgets = () => {
     router.push("app/add-budget");
   };
   const onPress = (id) => {
-    console.log(id);
     router.push(`app/budget/${id}`);
   };
 

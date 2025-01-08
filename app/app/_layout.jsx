@@ -62,7 +62,7 @@ const AppLayout = () => {
           }}
         />
         <Stack.Screen
-          name="budget/[id]/transaction/[id]/update-transaction"
+          name="budget/[id]/update-transaction"
           options={{ title: "Update Transaction" }}
         />
       </Stack>

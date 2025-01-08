@@ -1,5 +1,5 @@
 import React from "react";
-import AddBudget from "../../../../components/screens/AddBudget";
+import UpdateBudget from "../../../../components/screens/UpdateBudget";
 
-const UpdateBudgetScreen = () => <AddBudget />;
+const UpdateBudgetScreen = () => <UpdateBudget />;
 export default UpdateBudgetScreen;
