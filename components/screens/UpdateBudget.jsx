@@ -21,7 +21,7 @@ const UpdateBudget = () => {
 
       try {
         await ApiService.patchCall(`/budgets/${id}`, { title: text });
-        router.replace("/");
+        router.back();
       } catch (err) {
         console.log({ err });
         setError("Network Error");

@@ -40,7 +40,7 @@ const UpdateTransaction = () => {
           type: isExpense ? "EXPENSE" : "INCOME",
           budgetId: params.id,
         });
-        router.replace("/");
+        router.back();
       } catch (err) {
         console.log({ err });
         setError("Network Error");
@@ -80,7 +80,7 @@ const UpdateTransaction = () => {
         />
         <Text>{isExpense ? "EXPENSE" : "INCOME"}</Text>
       </View>
-      <Button title="Updatee" onPress={onPressUpdateTransaction} />
+      <Button title="Update" onPress={onPressUpdateTransaction} />
       {error && <Text>{error}</Text>}
     </View>
   );

@@ -6,8 +6,8 @@ import colors from "../consts/colors";
 
 const NavigatorButton = ({
   title = "Navigate",
-  pathname,
-  params,
+  pathname = "",
+  params = {},
   relativeToDirectory = false,
 }) => (
   <Link
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
 });
 
 NavigatorButton.propTypes = {
-  pathname: PropTypes.string.isRequired,
-  params: PropTypes.string,
+  pathname: PropTypes.string,
+  params: PropTypes.shape({}),
   title: PropTypes.string,
-  relativeToDirectory: PropTypes.boolean,
+  relativeToDirectory: PropTypes.bool,
 };

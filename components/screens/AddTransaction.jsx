@@ -39,7 +39,7 @@ const AddTransaction = () => {
           type: isExpense ? "EXPENSE" : "INCOME",
           budgetId: id,
         });
-        router.replace("/");
+        router.back();
       } catch (err) {
         console.log({ err });
         setError("Network Error");

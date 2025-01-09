@@ -2,6 +2,7 @@ export default {
   backgroundColor: "#41bf82",
   backgroundColorDark: "#2b8057",
   backgroundColorLight: "#ecf9f2",
+  budgetBackground: "rgb(50, 36, 67)",
   white: "#fff",
   black: "#000",
   grey: "#d1d1d1",

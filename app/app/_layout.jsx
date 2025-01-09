@@ -4,7 +4,6 @@ import { Text, SafeAreaView, StyleSheet } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "../../store/AuthContext";
 import colors from "../../consts/colors";
-import NavigatorButton from "../../components/NavigatorButton";
 
 const AppLayout = () => {
   const { session, isLoading } = useSession();

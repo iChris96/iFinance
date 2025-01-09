@@ -19,8 +19,11 @@ const AddBudget = () => {
       setLoading(true);
 
       try {
-        await ApiService.postCall("/budgets", { title: text });
-        router.replace("/");
+        const { id } = await ApiService.postCall("/budgets", { title: text });
+        router.replace(
+          { pathname: "../budget/[id]", params: { id } },
+          { relativeToDirectory: true }
+        );
       } catch (err) {
         console.log({ err });
         setError("Network Error");

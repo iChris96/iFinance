@@ -44,6 +44,7 @@ const SignIn = () => {
 
   return (
     <View style={{ ...styles.container }}>
+      <Text style={styles.title}>iFinance</Text>
       <View>
         <TextInput
           style={styles.input}
@@ -79,4 +80,5 @@ const styles = StyleSheet.create({
     margin: 12,
     padding: 10,
   },
+  title: { alignSelf: "center", fontSize: 28 },
 });

@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import React, { useEffect } from "react";
 import {
   Button,
@@ -30,7 +30,7 @@ const Budgets = () => {
   const [budgets, setBudgets] = React.useState([]);
 
   const addBudget = () => {
-    router.push("app/add-budget");
+    router.push({ pathname: "./add-budget" }, { relativeToDirectory: true });
   };
   const onPress = (id) => {
     router.push(`app/budget/${id}`);
@@ -50,19 +50,24 @@ const Budgets = () => {
     deleteBudgetCall();
   };
 
+  const getBudgets = async () => {
+    try {
+      const data = await getData();
+      setBudgets(data);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
   useEffect(() => {
-    const getBudgets = async () => {
-      try {
-        const data = await getData();
-
-        setBudgets(data);
-      } catch (error) {
-        console.log({ error });
-      }
-    };
-
     getBudgets();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getBudgets();
+    }, [])
+  );
 
   return (
     <View style={{ ...styles.container }}>
@@ -75,6 +80,7 @@ const Budgets = () => {
             onLongPress={() => onLongPress(item.id)}
           />
         )}
+        style={styles.flatList}
       />
 
       <Button onPress={addBudget} title="Add" />
@@ -90,12 +96,18 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "space-between",
   },
+  flatList: {
+    paddingTop: 4,
+  },
   item: {
-    backgroundColor: colors.purple,
-    marginBottom: 2,
+    backgroundColor: colors.budgetBackground,
+    borderRadius: 6,
+    marginBottom: 4,
+    marginHorizontal: 4,
     padding: 20,
   },
   title: {
-    fontSize: 32,
+    color: colors.white,
+    fontSize: 20,
   },
 });
