@@ -4,6 +4,7 @@ import { Text, SafeAreaView, StyleSheet } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "../../store/AuthContext";
 import colors from "../../consts/colors";
+import { headerTitleStyle } from "../../consts/styles";
 
 const AppLayout = () => {
   const { session, isLoading } = useSession();
@@ -28,7 +29,7 @@ const AppLayout = () => {
         <Stack.Screen
           name="index"
           options={{
-            headerStyle: { backgroundColor: colors.statusBar },
+            headerTitleStyle,
             contentStyle: { backgroundColor: colors.white },
             title: "My Budgets",
             headerShown: true,
@@ -37,6 +38,7 @@ const AppLayout = () => {
         <Stack.Screen
           name="profile"
           options={{
+            headerTitleStyle,
             contentStyle: { backgroundColor: colors.white },
             title: "My Profile",
           }}
@@ -44,25 +46,33 @@ const AppLayout = () => {
         <Stack.Screen
           name="add-budget"
           options={{
+            headerTitleStyle,
             contentStyle: { backgroundColor: colors.white },
             title: "Add budget",
           }}
         />
-        <Stack.Screen name="budget/[id]/index" options={{ title: "" }} />
+        <Stack.Screen
+          name="budget/[id]/index"
+          options={{ title: "", headerTitleStyle }}
+        />
         <Stack.Screen
           name="budget/[id]/update-budget"
-          options={{ title: "Update Budget" }}
+          options={{ title: "Update Budget", headerTitleStyle }}
         />
         <Stack.Screen
           name="budget/[id]/add-transaction"
           options={{
             contentStyle: { backgroundColor: colors.white },
             title: "Add Transaction",
+            headerTitleStyle,
           }}
         />
         <Stack.Screen
           name="budget/[id]/update-transaction"
-          options={{ title: "Update Transaction" }}
+          options={{
+            title: "Update Transaction",
+            headerTitleStyle,
+          }}
         />
       </Stack>
     </SafeAreaView>

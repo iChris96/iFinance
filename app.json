@@ -1,7 +1,34 @@
 {
   "expo": {
-    "name": "my-app",
-    "slug": "my-app",
-    "newArchEnabled": true
+    "name": "iFinances-app",
+    "slug": "iFinances-app",
+    "scheme": "iFinances-app",
+    "newArchEnabled": true,
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/favicon.png",
+          "imageWidth": 200
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ichirs96.myapp"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "web": {
+        "favicon": "./assets/favicon.png"
+      }
+    }
   }
 }

@@ -5,6 +5,7 @@ export default {
   budgetBackground: "rgb(50, 36, 67)",
   white: "#fff",
   black: "#000",
+  blackLight: "#222",
   grey: "#d1d1d1",
   success: "#5ee665",
   warning: "#f0c546",

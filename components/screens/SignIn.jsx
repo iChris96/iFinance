@@ -1,8 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 import { router } from "expo-router";
 import { useSession } from "../../store/AuthContext";
+import Text from "../Text";
+import TextInput from "../TextInput";
+import Button from "../Button";
 
 const SignIn = () => {
   const { session, signIn } = useSession();
@@ -15,7 +18,7 @@ const SignIn = () => {
   const onSubmit = async () => {
     const { baseURL } = Constants.expoConfig.extra;
     try {
-      const body = { email, password };
+      const body = { email: "KARIME@gmail.com", password: "elChris123123" };
       const response = await fetch(`${baseURL}/auth/login`, {
         method: "POST",
         headers: {
@@ -44,7 +47,7 @@ const SignIn = () => {
 
   return (
     <View style={{ ...styles.container }}>
-      <Text style={styles.title}>iFinance</Text>
+      <Text hero>iFinance</Text>
       <View>
         <TextInput
           style={styles.input}
@@ -59,7 +62,7 @@ const SignIn = () => {
           placeholder="password"
           secureTextEntry
         />
-        <Button title="Submit" onPress={onSubmit} />
+        <Button title="LOG IN" onPress={onSubmit} />
         {errorMessage && <Text>{errorMessage}</Text>}
       </View>
     </View>
@@ -74,11 +77,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
-  input: {
-    borderWidth: 1,
-    height: 40,
-    margin: 12,
-    padding: 10,
-  },
-  title: { alignSelf: "center", fontSize: 28 },
 });

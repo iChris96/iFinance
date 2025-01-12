@@ -1,23 +1,36 @@
+/* eslint-disable indent */
+/* eslint-disable operator-linebreak */
+/* eslint-disable react-native/no-unused-styles */
 import React from "react";
-import { Text, StyleSheet, Pressable } from "react-native";
+import { StyleSheet, Pressable, Platform } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../consts/colors";
+import Text from "./Text";
 
-const Button = ({
-  onPress,
-  title,
-  disabled = false,
-  backgroundColor = colors.black,
-}) => (
+const Button = ({ onPress, title, disabled = false, type = "primary" }) => (
   <Pressable
-    style={{
+    style={({ hovered, pressed }) => ({
       ...styles.button,
-      backgroundColor: disabled ? colors.grey : backgroundColor,
-    }}
+      ...styles[type],
+      ...(Platform.OS === "web" &&
+        hovered && {
+          backgroundColor: type === "primary" ? colors.blackLight : colors.grey,
+        }),
+      ...(pressed && {
+        transform: [{ scale: 0.98 }],
+        opacity: 0.9,
+      }),
+    })}
     onPress={onPress}
     disabled={disabled}
   >
-    <Text style={styles.text}>{title}</Text>
+    <Text
+      subtitle
+      color={type === "primary" ? "white" : "black"}
+      style={styles.text}
+    >
+      {title}
+    </Text>
   </Pressable>
 );
 
@@ -27,13 +40,19 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     justifyContent: "center",
+    margin: 4,
     paddingHorizontal: 32,
     paddingVertical: 12,
   },
+  primary: {
+    backgroundColor: colors.black,
+  },
+  secondary: {
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
+  },
   text: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
     letterSpacing: 0.25,
     lineHeight: 21,
   },
@@ -44,6 +63,6 @@ export default Button;
 Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string,
+  type: PropTypes.string,
   disabled: PropTypes.bool,
 };

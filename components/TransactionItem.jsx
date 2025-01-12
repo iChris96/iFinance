@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../consts/colors";
+import Text from "./Text";
 
 const TransactionItem = ({ transaction, onPress, onLongPress }) => (
   <TouchableOpacity
@@ -15,10 +16,10 @@ const TransactionItem = ({ transaction, onPress, onLongPress }) => (
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Text style={styles.title}>{transaction.title}</Text>
+    <Text subtitle>{transaction.title}</Text>
     <View style={styles.detailsContainer}>
-      <Text style={styles.title}>{`${transaction.amount}$`}</Text>
-      <Text style={styles.subtitle}>{transaction.type}</Text>
+      <Text subtitle>{`${transaction.amount}$`}</Text>
+      <Text>{transaction.type}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -34,12 +35,6 @@ const styles = StyleSheet.create({
   item: {
     marginBottom: 4,
     padding: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-  },
-  title: {
-    fontSize: 18,
   },
 });
 

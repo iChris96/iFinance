@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  Button,
-  StyleSheet,
-  Switch,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, Switch, TextInput, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
+import Text from "../Text";
+import Button from "../Button";
 
 const UpdateTransaction = () => {
   const params = useLocalSearchParams();
@@ -53,7 +48,7 @@ const UpdateTransaction = () => {
   };
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Text light>Loading...</Text>;
   }
 
   return (

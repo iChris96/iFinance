@@ -7,12 +7,15 @@ import {
   useLocalSearchParams,
 } from "expo-router";
 import React from "react";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 import colors from "../../consts/colors";
+import { headerTitleStyle } from "../../consts/styles";
 import ApiService from "../../network/apiService";
 import NavigatorButton from "../NavigatorButton";
 import TransactionItem from "../TransactionItem";
+import Text from "../Text";
+import Button from "../Button";
 
 const Budget = () => {
   const { id } = useLocalSearchParams();
@@ -92,13 +95,14 @@ const Budget = () => {
     }, [])
   );
 
-  if (!budget) return <Text>Loading...</Text>;
+  if (!budget) return <Text light>Loading...</Text>;
 
   return (
     <View>
       <Stack.Screen
         options={{
           contentStyle: { backgroundColor: colors.white },
+          headerTitleStyle,
           title: `Budget: ${id}`,
           headerRight: () => (
             <NavigatorButton
@@ -111,10 +115,18 @@ const Budget = () => {
         }}
       />
       <View style={styles.budgetContainer}>
-        <Text style={styles.title}>{budget.title}</Text>
-        <Text style={styles.subtitle}>{`Total Incomes: ${incomeSum} $`}</Text>
-        <Text style={styles.subtitle}>{`Total Expenses: ${expenseSum} $`}</Text>
-        <Text style={styles.subtitle}>{`Balance: ${balance} $`}</Text>
+        <Text title color="white">
+          {budget.title}
+        </Text>
+        <Text subtitle color="grey">
+          {`Total Incomes: ${incomeSum} $`}
+        </Text>
+        <Text subtitle color="grey">
+          {`Total Expenses: ${expenseSum} $`}
+        </Text>
+        <Text subtitle color="grey">
+          {`Balance: ${balance} $`}
+        </Text>
       </View>
       <FlatList
         data={transactions}
@@ -130,7 +142,7 @@ const Budget = () => {
         }
         style={styles.flatList}
       />
-      <Button onPress={addTransaction} title="Add" />
+      <Button onPress={addTransaction} title="ADD" />
     </View>
   );
 };
@@ -145,14 +157,6 @@ const styles = StyleSheet.create({
   flatList: {
     maxHeight: 600,
     paddingTop: 4,
-  },
-  subtitle: {
-    color: colors.grey,
-    fontSize: 16,
-  },
-  title: {
-    color: colors.white,
-    fontSize: 26,
   },
 });
 

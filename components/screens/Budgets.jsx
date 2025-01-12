@@ -1,29 +1,13 @@
 import { router, useFocusEffect } from "expo-router";
 import React, { useEffect } from "react";
-import {
-  Button,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import colors from "../../consts/colors";
 import ApiService from "../../network/apiService";
 import { useSession } from "../../store/AuthContext";
+import Text from "../Text";
+import Button from "../Button";
 
 const getData = async () => ApiService.getCall("/budgets");
-
-// eslint-disable-next-line react/prop-types
-const Budget = ({ title, onPress, onLongPress }) => (
-  <TouchableOpacity
-    style={styles.item}
-    onPress={onPress}
-    onLongPress={onLongPress}
-  >
-    <Text style={styles.title}>{title}</Text>
-  </TouchableOpacity>
-);
 
 const Budgets = () => {
   const { signOut } = useSession();
@@ -74,17 +58,19 @@ const Budgets = () => {
       <FlatList
         data={budgets}
         renderItem={({ item }) => (
-          <Budget
-            title={item.title}
+          <TouchableOpacity
+            style={styles.item}
             onPress={() => onPress(item.id)}
             onLongPress={() => onLongPress(item.id)}
-          />
+          >
+            <Text style={styles.title}>{item.title}</Text>
+          </TouchableOpacity>
         )}
+        ListEmptyComponent={<Text>There are no budgets available yet.</Text>}
         style={styles.flatList}
       />
-
-      <Button onPress={addBudget} title="Add" />
-      <Button onPress={signOut} title="Sign Out" />
+      <Button onPress={addBudget} title="ADD" />
+      <Button onPress={signOut} title="SIGN OUT" type="secondary" />
     </View>
   );
 };
@@ -95,6 +81,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     justifyContent: "space-between",
+    paddingBottom: 16,
   },
   flatList: {
     paddingTop: 4,
@@ -108,6 +95,5 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 20,
   },
 });

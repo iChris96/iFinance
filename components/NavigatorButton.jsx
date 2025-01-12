@@ -1,8 +1,8 @@
 import { Link } from "expo-router";
 import PropTypes from "prop-types";
 import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
-import colors from "../consts/colors";
+import { Pressable, StyleSheet } from "react-native";
+import Text from "./Text";
 
 const NavigatorButton = ({
   title = "Navigate",
@@ -16,7 +16,9 @@ const NavigatorButton = ({
     relativeToDirectory={relativeToDirectory}
   >
     <Pressable style={{ ...styles.button }}>
-      <Text style={styles.text}>{title}</Text>
+      <Text subtitle style={styles.text}>
+        {title}
+      </Text>
     </Pressable>
   </Link>
 );
@@ -33,8 +35,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
   },
   text: {
-    color: colors.black,
-    fontSize: 16,
     letterSpacing: 0.25,
     lineHeight: 21,
   },

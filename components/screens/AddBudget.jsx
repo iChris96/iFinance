@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import { useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
+import Text from "../Text";
+import Button from "../Button";
 
 const AddBudget = () => {
   const [text, onChangeText] = React.useState("");
@@ -36,7 +38,7 @@ const AddBudget = () => {
   };
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Text light>Loading...</Text>;
   }
 
   return (
