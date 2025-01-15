@@ -3,15 +3,14 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
+import { EXPENSE } from "../consts/strings";
 
 const TransactionItem = ({ transaction, onPress, onLongPress }) => (
   <TouchableOpacity
     style={{
       ...styles.item,
       backgroundColor:
-        transaction?.type === "EXPENSE"
-          ? colors.backgroundColor
-          : colors.warning,
+        transaction?.type === EXPENSE ? colors.backgroundColor : colors.warning,
     }}
     onPress={onPress}
     onLongPress={onLongPress}
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
   },
   item: {
     marginBottom: 4,
-    padding: 8,
+    padding: 16,
   },
 });
 

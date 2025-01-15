@@ -69,7 +69,7 @@ const Budgets = () => {
         ListEmptyComponent={<Text>There are no budgets available yet.</Text>}
         style={styles.flatList}
       />
-      <Button onPress={addBudget} title="ADD" />
+      <Button onPress={addBudget} title="NEW BUDGET" />
       <Button onPress={signOut} title="SIGN OUT" type="secondary" />
     </View>
   );

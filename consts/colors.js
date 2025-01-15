@@ -13,4 +13,6 @@ export default {
   purple: "rgb(104, 101, 238)",
   transparentDark: "rgba(0, 0, 0, 0.5)",
   statusBar: "#41bf82",
+  expense: "#41bf82",
+  income: "#f0c546",
 };

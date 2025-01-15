@@ -1,8 +1,12 @@
 import React from "react";
-import { Button, StyleSheet, Switch, TextInput, View } from "react-native";
+import { StyleSheet, Switch, TextInput, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
+import Button from "../Button";
+import SwitchSelector from "../SwitchSelector";
+import { expenseIncomeSwitchOptions } from "./UpdateTransaction";
+import { EXPENSE } from "../../consts/strings";
 
 const AddTransaction = () => {
   const [title, onChangeTitle] = React.useState("");
@@ -12,8 +16,7 @@ const AddTransaction = () => {
   const [error, setError] = React.useState(false);
   const router = useRouter();
 
-  const [isExpense, setIsExpense] = React.useState(true);
-  const toggleSwitch = () => setIsExpense((previousState) => !previousState);
+  const [isExpense, setIsExpense] = React.useState(EXPENSE);
 
   const { id } = useLocalSearchParams();
 
@@ -30,7 +33,7 @@ const AddTransaction = () => {
         await ApiService.postCall("/transactions", {
           title,
           amount,
-          type: isExpense ? "EXPENSE" : "INCOME",
+          type: isExpense,
           budgetId: id,
         });
         router.back();
@@ -51,30 +54,31 @@ const AddTransaction = () => {
 
   return (
     <View style={styles.constainer}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeTitle}
-        value={title}
-        placeholder="Title"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeAmount}
-        value={amount}
-        placeholder="Amount"
-      />
-      <View>
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isExpense ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={toggleSwitch}
-          value={isExpense}
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeTitle}
+          value={title}
+          placeholder="Title"
         />
-        <Text>{isExpense ? "EXPENSE" : "INCOME"}</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => onChangeAmount(text.replace(/[^0-9]/g, ""))}
+          maxLength={8}
+          value={amount}
+          placeholder="Amount"
+          keyboardType="numeric"
+        />
+        <SwitchSelector
+          options={expenseIncomeSwitchOptions}
+          selected={isExpense}
+          onPress={(value) => setIsExpense(value)}
+        />
       </View>
-      <Button title="Add" onPress={onPressAddTransaction} />
-      {error && <Text>{error}</Text>}
+      <View>
+        <Button title="SUBMIT" onPress={onPressAddTransaction} />
+        {error && <Text>{error}</Text>}
+      </View>
     </View>
   );
 };
@@ -83,12 +87,17 @@ export default AddTransaction;
 
 const styles = StyleSheet.create({
   constainer: {
+    flex: 1,
+    justifyContent: "space-between",
     padding: 10,
   },
   input: {
     borderWidth: 1,
     height: 40,
-    marginVertical: 12,
+    marginBottom: 12,
     padding: 10,
+  },
+  inputContainer: {
+    marginBottom: 12,
   },
 });

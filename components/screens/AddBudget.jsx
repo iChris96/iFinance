@@ -42,15 +42,17 @@ const AddBudget = () => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
         value={text}
         placeholder="Title"
       />
-      <Button title="Add" onPress={onPressAddBudget} />
-      {error && <Text>{error}</Text>}
+      <View>
+        <Button title="SUBMIT" onPress={onPressAddBudget} />
+        {error && <Text>{error}</Text>}
+      </View>
     </View>
   );
 };
@@ -58,6 +60,11 @@ const AddBudget = () => {
 export default AddBudget;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    padding: 10,
+  },
   input: {
     borderWidth: 1,
     height: 40,

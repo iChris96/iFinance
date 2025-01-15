@@ -48,7 +48,7 @@ const AppLayout = () => {
           options={{
             headerTitleStyle,
             contentStyle: { backgroundColor: colors.white },
-            title: "Add budget",
+            title: "New budget",
           }}
         />
         <Stack.Screen
@@ -63,7 +63,7 @@ const AppLayout = () => {
           name="budget/[id]/add-transaction"
           options={{
             contentStyle: { backgroundColor: colors.white },
-            title: "Add Transaction",
+            title: "New Transaction",
             headerTitleStyle,
           }}
         />

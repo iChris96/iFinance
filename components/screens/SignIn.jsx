@@ -18,7 +18,7 @@ const SignIn = () => {
   const onSubmit = async () => {
     const { baseURL } = Constants.expoConfig.extra;
     try {
-      const body = { email: "KARIME@gmail.com", password: "elChris123123" };
+      const body = { email, password };
       const response = await fetch(`${baseURL}/auth/login`, {
         method: "POST",
         headers: {

@@ -16,6 +16,7 @@ import NavigatorButton from "../NavigatorButton";
 import TransactionItem from "../TransactionItem";
 import Text from "../Text";
 import Button from "../Button";
+import { EXPENSE, INCOME } from "../../consts/strings";
 
 const Budget = () => {
   const { id } = useLocalSearchParams();
@@ -27,9 +28,9 @@ const Budget = () => {
       transactions.reduce(
         (acc, item) => {
           const amount = parseFloat(item.amount) || 0;
-          if (item.type === "INCOME") {
+          if (item.type === INCOME) {
             acc.incomeSum += amount;
-          } else if (item.type === "EXPENSE") {
+          } else if (item.type === EXPENSE) {
             acc.expenseSum += amount;
           }
           acc.balance = acc.incomeSum - acc.expenseSum;
@@ -98,7 +99,7 @@ const Budget = () => {
   if (!budget) return <Text light>Loading...</Text>;
 
   return (
-    <View>
+    <View style={styles.container}>
       <Stack.Screen
         options={{
           contentStyle: { backgroundColor: colors.white },
@@ -128,6 +129,7 @@ const Budget = () => {
           {`Balance: ${balance} $`}
         </Text>
       </View>
+
       <FlatList
         data={transactions}
         renderItem={({ item }) => (
@@ -142,7 +144,13 @@ const Budget = () => {
         }
         style={styles.flatList}
       />
-      <Button onPress={addTransaction} title="ADD" />
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={addTransaction}
+          title="NEW TRANSACTION"
+          type="primary"
+        />
+      </View>
     </View>
   );
 };
@@ -153,6 +161,14 @@ const styles = StyleSheet.create({
   budgetContainer: {
     backgroundColor: colors.budgetBackground,
     padding: 20,
+  },
+  buttonContainer: {
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
   },
   flatList: {
     maxHeight: 600,

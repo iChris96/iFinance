@@ -7,7 +7,13 @@ import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
 
-const Button = ({ onPress, title, disabled = false, type = "primary" }) => (
+const Button = ({
+  onPress,
+  title,
+  disabled = false,
+  type = "primary",
+  style = {},
+}) => (
   <Pressable
     style={({ hovered, pressed }) => ({
       ...styles.button,
@@ -20,6 +26,7 @@ const Button = ({ onPress, title, disabled = false, type = "primary" }) => (
         transform: [{ scale: 0.98 }],
         opacity: 0.9,
       }),
+      ...style,
     })}
     onPress={onPress}
     disabled={disabled}
@@ -65,4 +72,5 @@ Button.propTypes = {
   title: PropTypes.string.isRequired,
   type: PropTypes.string,
   disabled: PropTypes.bool,
+  style: PropTypes.shape({}),
 };
