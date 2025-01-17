@@ -1,8 +1,8 @@
 export default {
-  backgroundColor: "#41bf82",
-  backgroundColorDark: "#2b8057",
-  backgroundColorLight: "#ecf9f2",
-  budgetBackground: "rgb(50, 36, 67)",
+  backgroundColor: "#1E90FF",
+  backgroundColorDark: "#104E8B",
+  backgroundColorLight: "#87CEFA",
+  budgetBackground: "#1E90FF",
   white: "#fff",
   black: "#000",
   blackLight: "#222",
@@ -13,6 +13,6 @@ export default {
   purple: "rgb(104, 101, 238)",
   transparentDark: "rgba(0, 0, 0, 0.5)",
   statusBar: "#41bf82",
-  expense: "#41bf82",
-  income: "#f0c546",
+  expense: "#F4C430",
+  income: "#2ECC71",
 };

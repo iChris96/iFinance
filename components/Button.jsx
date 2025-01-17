@@ -2,7 +2,12 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable react-native/no-unused-styles */
 import React from "react";
-import { StyleSheet, Pressable, Platform } from "react-native";
+import {
+  StyleSheet,
+  Pressable,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
@@ -13,6 +18,7 @@ const Button = ({
   disabled = false,
   type = "primary",
   style = {},
+  loading = false,
 }) => (
   <Pressable
     style={({ hovered, pressed }) => ({
@@ -36,7 +42,7 @@ const Button = ({
       color={type === "primary" ? "white" : "black"}
       style={styles.text}
     >
-      {title}
+      {loading ? <ActivityIndicator size="small" color="white" /> : title}
     </Text>
   </Pressable>
 );
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     justifyContent: "center",
-    margin: 4,
+    marginVertical: 4,
     paddingHorizontal: 32,
     paddingVertical: 12,
   },
@@ -73,4 +79,5 @@ Button.propTypes = {
   type: PropTypes.string,
   disabled: PropTypes.bool,
   style: PropTypes.shape({}),
+  loading: PropTypes.bool,
 };

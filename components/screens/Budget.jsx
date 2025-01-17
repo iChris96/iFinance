@@ -7,7 +7,7 @@ import {
   useLocalSearchParams,
 } from "expo-router";
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
 import colors from "../../consts/colors";
 import { headerTitleStyle } from "../../consts/styles";
@@ -96,8 +96,9 @@ const Budget = () => {
     }, [])
   );
 
-  if (!budget) return <Text light>Loading...</Text>;
-
+  if (!budget) {
+    return <ActivityIndicator size="large" color={colors.backgroundColor} />;
+  }
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -115,35 +116,43 @@ const Budget = () => {
           ),
         }}
       />
-      <View style={styles.budgetContainer}>
-        <Text title color="white">
-          {budget.title}
-        </Text>
-        <Text subtitle color="grey">
-          {`Total Incomes: ${incomeSum} $`}
-        </Text>
-        <Text subtitle color="grey">
-          {`Total Expenses: ${expenseSum} $`}
-        </Text>
-        <Text subtitle color="grey">
-          {`Balance: ${balance} $`}
-        </Text>
+      <View>
+        <View style={styles.budgetContainer}>
+          <Text title color="white">
+            {budget.title}
+          </Text>
+          <Text subtitle color="white">
+            {`Total Incomes: ${incomeSum} $`}
+          </Text>
+          <Text subtitle color="white">
+            {`Total Expenses: ${expenseSum} $`}
+          </Text>
+          <Text subtitle color="white">
+            {`Balance: ${balance} $`}
+          </Text>
+        </View>
+        <FlatList
+          data={transactions}
+          renderItem={({ item }) => (
+            <TransactionItem
+              transaction={item}
+              onLongPress={() => onLongPress(item.id)}
+              onPress={() => onPress(item)}
+            />
+          )}
+          ListEmptyComponent={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <Text>There are no transactions available yet.</Text>
+          }
+          ListHeaderComponent={
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <Text title style={styles.subtitle}>
+              Transactions
+            </Text>
+          }
+          style={styles.flatList}
+        />
       </View>
-
-      <FlatList
-        data={transactions}
-        renderItem={({ item }) => (
-          <TransactionItem
-            transaction={item}
-            onLongPress={() => onLongPress(item.id)}
-            onPress={() => onPress(item)}
-          />
-        )}
-        ListEmptyComponent={
-          <Text>There are no transactions available yet.</Text>
-        }
-        style={styles.flatList}
-      />
       <View style={styles.buttonContainer}>
         <Button
           onPress={addTransaction}
@@ -159,7 +168,7 @@ export default Budget;
 
 const styles = StyleSheet.create({
   budgetContainer: {
-    backgroundColor: colors.budgetBackground,
+    backgroundColor: colors.backgroundColor,
     padding: 20,
   },
   buttonContainer: {
@@ -172,7 +181,11 @@ const styles = StyleSheet.create({
   },
   flatList: {
     maxHeight: 600,
-    paddingTop: 4,
+    paddingTop: 2,
+  },
+  subtitle: {
+    marginLeft: 2,
+    marginVertical: 12,
   },
 });
 

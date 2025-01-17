@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Switch, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
@@ -7,6 +7,7 @@ import Button from "../Button";
 import SwitchSelector from "../SwitchSelector";
 import { expenseIncomeSwitchOptions } from "./UpdateTransaction";
 import { EXPENSE } from "../../consts/strings";
+import TextInput from "../TextInput";
 
 const AddTransaction = () => {
   const [title, onChangeTitle] = React.useState("");

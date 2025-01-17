@@ -6,18 +6,21 @@ import { useSession } from "../../store/AuthContext";
 import Text from "../Text";
 import TextInput from "../TextInput";
 import Button from "../Button";
+import colors from "../../consts/colors";
 
 const SignIn = () => {
   const { session, signIn } = useSession();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("");
-
+  const [loading, setLoading] = React.useState(false);
   const onChangeEmail = (text) => setEmail(text);
   const onChangePassword = (text) => setPassword(text);
+
   const onSubmit = async () => {
     const { baseURL } = Constants.expoConfig.extra;
     try {
+      setLoading(true);
       const body = { email, password };
       const response = await fetch(`${baseURL}/auth/login`, {
         method: "POST",
@@ -36,6 +39,8 @@ const SignIn = () => {
     } catch (error) {
       console.log({ error });
       setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,13 +52,16 @@ const SignIn = () => {
 
   return (
     <View style={{ ...styles.container }}>
-      <Text hero>iFinance</Text>
-      <View>
+      <View style={{ ...styles.inputContainer }}>
+        <Text hero style={styles.title}>
+          iFinance
+        </Text>
         <TextInput
           style={styles.input}
           onChangeText={onChangeEmail}
           value={email}
           placeholder="email"
+          type="email"
         />
         <TextInput
           style={styles.input}
@@ -61,8 +69,9 @@ const SignIn = () => {
           value={password}
           placeholder="password"
           secureTextEntry
+          type="password"
         />
-        <Button title="LOG IN" onPress={onSubmit} />
+        <Button title="LOG IN" onPress={onSubmit} loading={loading} />
         {errorMessage && <Text>{errorMessage}</Text>}
       </View>
     </View>
@@ -73,8 +82,20 @@ export default SignIn;
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
     padding: 10,
+    width: "100%",
+  },
+  inputContainer: {
+    backgroundColor: colors.backgroundColor,
+    borderRadius: 4,
+    maxWidth: 700,
+    padding: 24,
+    width: "100%",
+  },
+  title: {
+    marginBottom: 14,
   },
 });

@@ -1,6 +1,12 @@
 import { router, useFocusEffect } from "expo-router";
 import React, { useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import colors from "../../consts/colors";
 import ApiService from "../../network/apiService";
 import { useSession } from "../../store/AuthContext";
@@ -12,6 +18,7 @@ const getData = async () => ApiService.getCall("/budgets");
 const Budgets = () => {
   const { signOut } = useSession();
   const [budgets, setBudgets] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   const addBudget = () => {
     router.push({ pathname: "./add-budget" }, { relativeToDirectory: true });
@@ -40,6 +47,8 @@ const Budgets = () => {
       setBudgets(data);
     } catch (error) {
       console.log({ error });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,6 +61,10 @@ const Budgets = () => {
       getBudgets();
     }, [])
   );
+
+  if (loading) {
+    return <ActivityIndicator size="large" color={colors.backgroundColor} />;
+  }
 
   return (
     <View style={{ ...styles.container }}>
@@ -87,7 +100,7 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
   item: {
-    backgroundColor: colors.budgetBackground,
+    backgroundColor: colors.backgroundColor,
     borderRadius: 6,
     marginBottom: 4,
     marginHorizontal: 4,

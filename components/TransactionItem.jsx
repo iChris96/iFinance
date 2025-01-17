@@ -4,27 +4,41 @@ import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
 import { EXPENSE } from "../consts/strings";
+import Ship from "./Ship";
 
 const TransactionItem = ({ transaction, onPress, onLongPress }) => (
   <TouchableOpacity
-    style={{
-      ...styles.item,
-      backgroundColor:
-        transaction?.type === EXPENSE ? colors.backgroundColor : colors.warning,
-    }}
+    style={styles.item}
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Text subtitle>{transaction.title}</Text>
-    <View style={styles.detailsContainer}>
-      <Text subtitle>{`${transaction.amount}$`}</Text>
-      <Text>{transaction.type}</Text>
+    <View style={styles.itemContainer}>
+      <Text subtitle>{transaction.title}</Text>
+      <View style={styles.detailsContainer}>
+        <Text
+          subtitle
+          style={{
+            ...styles.amount,
+          }}
+        >
+          {`${transaction.type === EXPENSE ? "-" : ""}${transaction.amount}$`}
+        </Text>
+        <Ship
+          color={transaction.type === EXPENSE ? colors.expense : colors.income}
+        >
+          <Text>{transaction.type}</Text>
+        </Ship>
+      </View>
     </View>
   </TouchableOpacity>
 );
 export default TransactionItem;
 
 const styles = StyleSheet.create({
+  amount: {
+    borderRadius: 4,
+    fontSize: 18,
+  },
   detailsContainer: {
     alignItems: "center",
     display: "flex",
@@ -32,8 +46,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   item: {
-    marginBottom: 4,
+    alignItems: "center",
+    marginBottom: 2,
+  },
+  itemContainer: {
+    borderBottomWidth: 1,
+    borderColor: colors.grey,
     padding: 16,
+    width: "98%",
   },
 });
 

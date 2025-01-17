@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
@@ -7,6 +7,7 @@ import Button from "../Button";
 import SwitchSelector from "../SwitchSelector";
 import colors from "../../consts/colors";
 import { EXPENSE, INCOME } from "../../consts/strings";
+import TextInput from "../TextInput";
 
 const UpdateTransaction = () => {
   const params = useLocalSearchParams();
@@ -105,12 +106,12 @@ export const expenseIncomeSwitchOptions = [
   {
     label: <Text>EXPENSE</Text>,
     value: EXPENSE,
-    selectedBackgroundColor: colors.backgroundColor,
+    selectedBackgroundColor: colors.expense,
     innerHeight: 50,
   },
   {
     label: <Text>INCOME</Text>,
     value: INCOME,
-    selectedBackgroundColor: colors.warning,
+    selectedBackgroundColor: colors.income,
   },
 ];

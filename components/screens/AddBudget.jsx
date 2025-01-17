@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
 import Button from "../Button";
+import TextInput from "../TextInput";
 
 const AddBudget = () => {
   const [text, onChangeText] = React.useState("");
