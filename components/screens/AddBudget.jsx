@@ -38,10 +38,6 @@ const AddBudget = () => {
     addBudget();
   };
 
-  if (loading) {
-    return <Text light>Loading...</Text>;
-  }
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -51,7 +47,7 @@ const AddBudget = () => {
         placeholder="Title"
       />
       <View>
-        <Button title="SUBMIT" onPress={onPressAddBudget} />
+        <Button title="SUBMIT" onPress={onPressAddBudget} loading={loading} />
         {error && <Text>{error}</Text>}
       </View>
     </View>

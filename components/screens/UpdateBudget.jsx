@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
 import Button from "../Button";
+import TextInput from "../TextInput";
 
 const UpdateBudget = () => {
   const { id, title } = useLocalSearchParams();
@@ -35,19 +36,19 @@ const UpdateBudget = () => {
     updateBudget();
   };
 
-  if (loading) {
-    return <Text light>Loading...</Text>;
-  }
-
   return (
-    <View>
+    <View style={styles.container}>
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
         value={text}
         placeholder="Title"
       />
-      <Button title="Update" onPress={onPressUpdateBudget} />
+      <Button
+        title="UPDATE BUDGET"
+        onPress={onPressUpdateBudget}
+        loading={loading}
+      />
       {error && <Text>{error}</Text>}
     </View>
   );
@@ -56,6 +57,11 @@ const UpdateBudget = () => {
 export default UpdateBudget;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+    padding: 10,
+  },
   input: {
     borderWidth: 1,
     height: 40,

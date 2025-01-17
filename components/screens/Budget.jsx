@@ -17,11 +17,13 @@ import TransactionItem from "../TransactionItem";
 import Text from "../Text";
 import Button from "../Button";
 import { EXPENSE, INCOME } from "../../consts/strings";
+import alert from "../Alert";
 
 const Budget = () => {
   const { id } = useLocalSearchParams();
   const [budget, setBudget] = React.useState();
   const [transactions, setTransactions] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const { incomeSum, expenseSum, balance } = React.useMemo(
     () =>
@@ -50,19 +52,34 @@ const Budget = () => {
       { relativeToDirectory: true }
     );
 
-  const onLongPress = (transactionId) => {
-    const deleteTransactionCall = async () => {
-      try {
-        await ApiService.deleteCall(`/transactions/${transactionId}`);
-        const responseJson = await getTransactions(id);
-        setBudget(responseJson.budget);
-        setTransactions(responseJson.transactions);
-      } catch (error) {
-        console.log({ error });
-      }
-    };
+  const onLongPress = (transactionId) =>
+    alert(
+      "Delete Transaction",
+      "Are you sure you want to delete this transaction?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteTransactionCall(transactionId);
+          },
+        },
+      ]
+    );
 
-    deleteTransactionCall();
+  const deleteTransactionCall = async (transactionId) => {
+    try {
+      await ApiService.deleteCall(`/transactions/${transactionId}`);
+      const responseJson = await getTransactions(id);
+      setBudget(responseJson.budget);
+      setTransactions(responseJson.transactions);
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   const onPress = (item) => {
@@ -78,11 +95,14 @@ const Budget = () => {
 
   const getBudget = async (budgetId) => {
     try {
+      setIsLoading(true);
       const responseJson = await getTransactions(budgetId);
       setBudget(responseJson.budget);
       setTransactions(responseJson.transactions);
     } catch (error) {
       console.log({ error });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,9 +116,16 @@ const Budget = () => {
     }, [])
   );
 
-  if (!budget) {
-    return <ActivityIndicator size="large" color={colors.backgroundColor} />;
+  if (isLoading || !budget) {
+    return (
+      <ActivityIndicator
+        size="large"
+        color={colors.backgroundColor}
+        style={styles.activityIndicator}
+      />
+    );
   }
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -167,6 +194,9 @@ const Budget = () => {
 export default Budget;
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+  },
   budgetContainer: {
     backgroundColor: colors.backgroundColor,
     padding: 20,

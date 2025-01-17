@@ -12,6 +12,7 @@ import ApiService from "../../network/apiService";
 import { useSession } from "../../store/AuthContext";
 import Text from "../Text";
 import Button from "../Button";
+import alert from "../Alert";
 
 const getData = async () => ApiService.getCall("/budgets");
 
@@ -27,18 +28,27 @@ const Budgets = () => {
     router.push(`app/budget/${id}`);
   };
 
-  const onLongPress = (id) => {
-    const deleteBudgetCall = async () => {
-      try {
-        await ApiService.deleteCall(`/budgets/${id}`);
-        const data = await getData();
-        setBudgets(data);
-      } catch (error) {
-        console.log({ error });
-      }
-    };
+  const onLongPress = (id) =>
+    alert("Delete Budget", "Are you sure?", [
+      {
+        text: "Cancel",
+        onPress: () => {},
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => deleteBudgetCall(id),
+      },
+    ]);
 
-    deleteBudgetCall();
+  const deleteBudgetCall = async (id) => {
+    try {
+      await ApiService.deleteCall(`/budgets/${id}`);
+      const data = await getData();
+      setBudgets(data);
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   const getBudgets = async () => {
@@ -63,7 +73,13 @@ const Budgets = () => {
   );
 
   if (loading) {
-    return <ActivityIndicator size="large" color={colors.backgroundColor} />;
+    return (
+      <ActivityIndicator
+        size="large"
+        color={colors.backgroundColor}
+        style={styles.activityIndicator}
+      />
+    );
   }
 
   return (
@@ -91,6 +107,9 @@ const Budgets = () => {
 export default Budgets;
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+  },
   container: {
     height: "100%",
     justifyContent: "space-between",

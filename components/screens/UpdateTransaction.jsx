@@ -50,10 +50,6 @@ const UpdateTransaction = () => {
     updateBudget();
   };
 
-  if (loading) {
-    return <Text light>Loading...</Text>;
-  }
-
   return (
     <View style={styles.constainer}>
       <View style={styles.inputContainer}>
@@ -77,7 +73,11 @@ const UpdateTransaction = () => {
           onPress={(value) => setIsExpense(value)}
         />
       </View>
-      <Button title="UPDATE" onPress={onPressUpdateTransaction} />
+      <Button
+        title="UPDATE TRANSACTION"
+        onPress={onPressUpdateTransaction}
+        loading={loading}
+      />
       {error && <Text>{error}</Text>}
     </View>
   );

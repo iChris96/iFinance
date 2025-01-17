@@ -49,10 +49,6 @@ const AddTransaction = () => {
     addBudget();
   };
 
-  if (loading) {
-    return <Text light>Loading...</Text>;
-  }
-
   return (
     <View style={styles.constainer}>
       <View style={styles.inputContainer}>
@@ -77,7 +73,11 @@ const AddTransaction = () => {
         />
       </View>
       <View>
-        <Button title="SUBMIT" onPress={onPressAddTransaction} />
+        <Button
+          title="SUBMIT"
+          onPress={onPressAddTransaction}
+          loading={loading}
+        />
         {error && <Text>{error}</Text>}
       </View>
     </View>
