@@ -12,7 +12,7 @@ const SignIn = () => {
   const { session, signIn } = useSession();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const onChangeEmail = (text) => setEmail(text);
   const onChangePassword = (text) => setPassword(text);
@@ -49,6 +49,8 @@ const SignIn = () => {
       router.replace("/app");
     }
   }, [session]);
+
+  console.log("test");
 
   return (
     <View style={{ ...styles.container }}>

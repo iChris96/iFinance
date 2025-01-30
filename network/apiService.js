@@ -2,6 +2,7 @@
 import Constants from "expo-constants";
 import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { router } from "expo-router";
 import { setStorageItemAsync } from "../hooks/useStorageState";
 
 class ApiService {
@@ -36,7 +37,8 @@ class ApiService {
         const errorDetails = await response.text();
 
         if (response.status === 401) {
-          setStorageItemAsync("session", null);
+          await setStorageItemAsync("session", null);
+          router.replace("logout");
         }
         throw new Error(
           `Request failed with status ${response.status}: ${errorDetails}`
