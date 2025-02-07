@@ -33,11 +33,11 @@ export function useStorageState(key) {
     try {
       if (Platform.OS === "web") {
         if (typeof localStorage !== "undefined") {
-          setState(localStorage.getItem(key));
+          setState(JSON.parse(localStorage.getItem(key)));
         }
       } else {
         SecureStore.getItemAsync(key).then((value) => {
-          setState(value);
+          setState(JSON.parse(value));
         });
       }
     } catch (e) {

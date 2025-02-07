@@ -34,8 +34,9 @@ const SignIn = () => {
       }
       const responseJson = await response.json();
 
-      const { access_token: token } = responseJson;
-      signIn(token);
+      const { access_token: token, username } = responseJson;
+      console.log({ token, username });
+      signIn({ token, username });
     } catch (error) {
       console.log({ error });
       setErrorMessage(error.message);

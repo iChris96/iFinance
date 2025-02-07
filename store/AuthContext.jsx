@@ -23,11 +23,14 @@ export function useSession() {
 export const SessionProvider = ({ children }) => {
   const [[isLoading, session], setSession] = useStorageState("session");
 
-  const signIn = (token) => {
-    setSession(token);
+  const signIn = (value) => {
+    const k = JSON.stringify(value);
+    console.log({ k });
+    setSession(k);
   };
 
   const signOut = () => {
+    console.log("signOut");
     setSession(null);
   };
 

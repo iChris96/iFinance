@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import colors from "../../consts/colors";
 import ApiService from "../../network/apiService";
-import { useSession } from "../../store/AuthContext";
 import Text from "../Text";
 import Button from "../Button";
 import alert from "../Alert";
@@ -17,7 +16,6 @@ import alert from "../Alert";
 const getData = async () => ApiService.getCall("/budgets");
 
 const Budgets = () => {
-  const { signOut } = useSession();
   const [budgets, setBudgets] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -25,7 +23,13 @@ const Budgets = () => {
     router.push({ pathname: "./add-budget" }, { relativeToDirectory: true });
   };
   const onPress = (id) => {
-    router.push(`app/budget/${id}`);
+    router.push(
+      {
+        pathname: "app/home/budget/[id]",
+        params: { id },
+      },
+      { relativeToDirectory: true }
+    );
   };
 
   const onLongPress = (id) =>
@@ -99,7 +103,6 @@ const Budgets = () => {
         style={styles.flatList}
       />
       <Button onPress={addBudget} title="NEW BUDGET" />
-      <Button onPress={signOut} title="SIGN OUT" type="secondary" />
     </View>
   );
 };
@@ -113,6 +116,7 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     justifyContent: "space-between",
+    padding: 10,
     paddingBottom: 16,
   },
   flatList: {

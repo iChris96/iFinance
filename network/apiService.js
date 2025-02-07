@@ -9,12 +9,15 @@ class ApiService {
   static async getToken() {
     let token = null;
 
-    if (Platform.OS === "web") {
-      if (typeof localStorage !== "undefined") {
-        token = localStorage.getItem("session");
-      }
+    if (Platform.OS === "web" && typeof localStorage !== "undefined") {
+      token = JSON.parse(localStorage.getItem("session"))?.token;
     } else {
-      token = await SecureStore.getItemAsync("session");
+      token = await SecureStore.getItemAsync("session").then((value) => {
+        if (value) {
+          return JSON.parse(value)?.token;
+        }
+        return null;
+      });
     }
 
     return token;
