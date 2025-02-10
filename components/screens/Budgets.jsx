@@ -20,7 +20,12 @@ const Budgets = () => {
   const [loading, setLoading] = React.useState(true);
 
   const addBudget = () => {
-    router.push({ pathname: "./add-budget" }, { relativeToDirectory: true });
+    router.push(
+      {
+        pathname: "app/home/add-budget",
+      },
+      { relativeToDirectory: true }
+    );
   };
   const onPress = (id) => {
     router.push(
