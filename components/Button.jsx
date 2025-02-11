@@ -1,6 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable operator-linebreak */
-/* eslint-disable react-native/no-unused-styles */
 import React from "react";
 import {
   StyleSheet,
@@ -12,58 +9,68 @@ import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
 
+const getHoveredStyle = (hovered, hoveredColor) => {
+  if (Platform.OS !== "web" || !hovered) {
+    return {};
+  }
+
+  return { backgroundColor: hoveredColor };
+};
+
+const getButtonStyles = ({
+  style,
+  hovered,
+  pressed,
+  rounded,
+  hoveredColor,
+}) => [
+  styles.button,
+  rounded && styles.rounded,
+  pressed && { transform: [{ scale: 0.98 }], opacity: 0.9 },
+  style,
+  getHoveredStyle(hovered, hoveredColor),
+];
+
 const Button = ({
   onPress,
   title,
   disabled = false,
-  type = "primary",
   style = {},
   loading = false,
+  rounded = true,
+  hoveredColor = colors.primaryButtonHoverColor,
+  textColor = "white",
 }) => (
   <Pressable
-    style={({ hovered, pressed }) => ({
-      ...styles.button,
-      ...styles[type],
-      ...(Platform.OS === "web" &&
-        hovered && {
-          backgroundColor: type === "primary" ? colors.blackLight : colors.grey,
-        }),
-      ...(pressed && {
-        transform: [{ scale: 0.98 }],
-        opacity: 0.9,
-      }),
-      ...style,
-    })}
+    style={
+      ({ hovered, pressed }) =>
+        getButtonStyles({ style, hovered, pressed, rounded, hoveredColor })
+      // eslint-disable-next-line react/jsx-curly-newline
+    }
     onPress={onPress}
     disabled={disabled}
   >
-    <Text
-      subtitle
-      color={type === "primary" ? "white" : "black"}
-      style={styles.text}
-    >
-      {loading ? <ActivityIndicator size="small" color="white" /> : title}
-    </Text>
+    {loading ? (
+      <ActivityIndicator size="small" color="white" />
+    ) : (
+      <Text subtitle color={textColor} style={styles.text}>
+        {title}
+      </Text>
+    )}
   </Pressable>
 );
 
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    borderRadius: 4,
+    backgroundColor: colors.primaryButtonBackgroundColor,
     elevation: 3,
     justifyContent: "center",
-    marginVertical: 4,
     paddingHorizontal: 32,
     paddingVertical: 12,
   },
-  primary: {
-    backgroundColor: colors.black,
-  },
-  secondary: {
-    backgroundColor: colors.white,
-    borderColor: colors.black,
-    borderWidth: 1,
+  rounded: {
+    borderRadius: 6,
   },
   text: {
     letterSpacing: 0.25,
@@ -76,8 +83,13 @@ export default Button;
 Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  hoveredColor: PropTypes.string,
   disabled: PropTypes.bool,
-  style: PropTypes.shape({}),
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
   loading: PropTypes.bool,
+  rounded: PropTypes.bool,
+  textColor: PropTypes.string,
 };

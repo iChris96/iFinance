@@ -5,6 +5,8 @@ import ApiService from "../../network/apiService";
 import Text from "../Text";
 import Button from "../Button";
 import TextInput from "../TextInput";
+import colors from "../../consts/colors";
+import { globalStyles } from "../../consts/styles";
 
 const AddBudget = () => {
   const [text, onChangeText] = React.useState("");
@@ -47,7 +49,13 @@ const AddBudget = () => {
         placeholder="Title"
       />
       <View>
-        <Button title="SUBMIT" onPress={onPressAddBudget} loading={loading} />
+        <Button
+          title="ADD BUDGET"
+          onPress={onPressAddBudget}
+          loading={loading}
+          hoveredColor={colors.addBudgetButtonHoverColor}
+          style={globalStyles.addBudgetButton}
+        />
         {error && <Text>{error}</Text>}
       </View>
     </View>

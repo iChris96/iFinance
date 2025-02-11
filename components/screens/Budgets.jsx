@@ -8,10 +8,12 @@ import {
   ActivityIndicator,
 } from "react-native";
 import colors from "../../consts/colors";
+import { ITEM_HEIGHT } from "../../consts/sizes";
 import ApiService from "../../network/apiService";
 import Text from "../Text";
 import Button from "../Button";
 import alert from "../Alert";
+import { globalStyles } from "../../consts/styles";
 
 const getData = async () => ApiService.getCall("/budgets");
 
@@ -93,21 +95,34 @@ const Budgets = () => {
 
   return (
     <View style={{ ...styles.container }}>
-      <FlatList
-        data={budgets}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => onPress(item.id)}
-            onLongPress={() => onLongPress(item.id)}
-          >
-            <Text style={styles.title}>{item.title}</Text>
-          </TouchableOpacity>
-        )}
-        ListEmptyComponent={<Text>There are no budgets available yet.</Text>}
-        style={styles.flatList}
-      />
-      <Button onPress={addBudget} title="NEW BUDGET" />
+      <View style={{ ...styles.headerContainer }}>
+        <Button
+          onPress={addBudget}
+          title="ADD BUDGET"
+          rounded={false}
+          hoveredColor={colors.addBudgetButtonHoverColor}
+          style={StyleSheet.compose(
+            globalStyles.addBudgetButton,
+            styles.addBudgetButton
+          )}
+        />
+      </View>
+      <View style={{ ...styles.flatListContainer }}>
+        <FlatList
+          data={budgets}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => onPress(item.id)}
+              onLongPress={() => onLongPress(item.id)}
+            >
+              <Text style={styles.title}>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={<Text>There are no budgets available yet.</Text>}
+          style={styles.flatList}
+        />
+      </View>
     </View>
   );
 };
@@ -118,21 +133,32 @@ const styles = StyleSheet.create({
   activityIndicator: {
     flex: 1,
   },
+  addBudgetButton: {
+    height: 100,
+  },
   container: {
     height: "100%",
-    justifyContent: "space-between",
-    padding: 10,
-    paddingBottom: 16,
+    justifyContent: "space-evenly",
   },
   flatList: {
-    paddingTop: 4,
+    paddingTop: 32,
+  },
+  flatListContainer: {
+    flex: 1,
+    padding: 8,
+  },
+  headerContainer: {
+    justifyContent: "center",
   },
   item: {
+    alignItems: "center",
     backgroundColor: colors.backgroundColor,
     borderRadius: 6,
-    marginBottom: 4,
+    height: ITEM_HEIGHT,
+    justifyContent: "center",
+    marginBottom: 6,
     marginHorizontal: 4,
-    padding: 20,
+    padding: 8,
   },
   title: {
     color: colors.white,

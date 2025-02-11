@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     borderBottomWidth: 1,
-    borderColor: colors.grey,
+    borderColor: colors.gray,
     padding: 16,
     width: "98%",
   },

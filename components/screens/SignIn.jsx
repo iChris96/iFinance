@@ -56,26 +56,28 @@ const SignIn = () => {
   return (
     <View style={{ ...styles.container }}>
       <View style={{ ...styles.inputContainer }}>
-        <Text hero style={styles.title}>
-          iFinance
-        </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeEmail}
-          value={email}
-          placeholder="email"
-          type="email"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangePassword}
-          value={password}
-          placeholder="password"
-          secureTextEntry
-          type="password"
-        />
-        <Button title="LOG IN" onPress={onSubmit} loading={loading} />
-        {errorMessage && <Text>{errorMessage}</Text>}
+        <View style={{ ...styles.inputWrapper }}>
+          <Text hero style={styles.title}>
+            iFinance
+          </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            value={email}
+            placeholder="email"
+            type="email"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangePassword}
+            value={password}
+            placeholder="password"
+            secureTextEntry
+            type="password"
+          />
+          <Button title="LOG IN" onPress={onSubmit} loading={loading} />
+          {errorMessage && <Text>{errorMessage}</Text>}
+        </View>
       </View>
     </View>
   );
@@ -96,6 +98,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     maxWidth: 700,
     padding: 24,
+    width: "100%",
+  },
+  inputWrapper: {
+    alignSelf: "center",
+    maxWidth: 450,
     width: "100%",
   },
   title: {

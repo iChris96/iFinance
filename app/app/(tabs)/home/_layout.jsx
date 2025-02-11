@@ -3,8 +3,7 @@ import React from "react";
 import { Text, SafeAreaView, StyleSheet } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "../../../../store/AuthContext";
-import colors from "../../../../consts/colors";
-import { headerTitleStyle } from "../../../../consts/styles";
+import { headerTitleStyle, contentStyle } from "../../../../consts/styles";
 
 const AppLayout = () => {
   const { session, isLoading } = useSession();
@@ -30,7 +29,7 @@ const AppLayout = () => {
           name="index"
           options={{
             headerTitleStyle,
-            contentStyle: { backgroundColor: colors.white },
+            contentStyle,
             title: "My Budgets",
             headerShown: true,
           }}
@@ -39,7 +38,7 @@ const AppLayout = () => {
           name="profile"
           options={{
             headerTitleStyle,
-            contentStyle: { backgroundColor: colors.white },
+            contentStyle,
             title: "My Profile",
           }}
         />
@@ -47,22 +46,22 @@ const AppLayout = () => {
           name="add-budget"
           options={{
             headerTitleStyle,
-            contentStyle: { backgroundColor: colors.white },
+            contentStyle,
             title: "New budget",
           }}
         />
         <Stack.Screen
           name="budget/[id]/index"
-          options={{ title: "", headerTitleStyle }}
+          options={{ title: "", headerTitleStyle, contentStyle }}
         />
         <Stack.Screen
           name="budget/[id]/update-budget"
-          options={{ title: "Update Budget", headerTitleStyle }}
+          options={{ title: "Update Budget", headerTitleStyle, contentStyle }}
         />
         <Stack.Screen
           name="budget/[id]/add-transaction"
           options={{
-            contentStyle: { backgroundColor: colors.white },
+            contentStyle,
             title: "New Transaction",
             headerTitleStyle,
           }}
@@ -72,6 +71,7 @@ const AppLayout = () => {
           options={{
             title: "Update Transaction",
             headerTitleStyle,
+            contentStyle,
           }}
         />
       </Stack>

@@ -2,6 +2,7 @@ import React from "react";
 import { Stack } from "expo-router/stack";
 import { Redirect } from "expo-router";
 import { useSession } from "../../../../store/AuthContext";
+import { headerTitleStyle, contentStyle } from "../../../../consts/styles";
 
 const Layout = () => {
   const { session } = useSession();
@@ -19,6 +20,8 @@ const Layout = () => {
       <Stack.Screen
         name="index"
         options={{
+          headerTitleStyle,
+          contentStyle,
           title: "My Settings",
           headerShown: true,
         }}

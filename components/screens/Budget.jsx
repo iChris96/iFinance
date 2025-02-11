@@ -10,7 +10,11 @@ import React from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
 import colors from "../../consts/colors";
-import { headerTitleStyle } from "../../consts/styles";
+import {
+  headerTitleStyle,
+  contentStyle,
+  globalStyles,
+} from "../../consts/styles";
 import ApiService from "../../network/apiService";
 import NavigatorButton from "../NavigatorButton";
 import TransactionItem from "../TransactionItem";
@@ -21,7 +25,7 @@ import alert from "../Alert";
 
 const Budget = () => {
   const { id } = useLocalSearchParams();
-  const [budget, setBudget] = React.useState();
+  const [budget, setBudget] = React.useState({ title: "" });
   const [transactions, setTransactions] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -116,21 +120,13 @@ const Budget = () => {
     }, [])
   );
 
-  if (isLoading || !budget) {
-    return (
-      <ActivityIndicator
-        size="large"
-        color={colors.backgroundColor}
-        style={styles.activityIndicator}
-      />
-    );
-  }
+  const isDataLoading = isLoading || !transactions;
 
   return (
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          contentStyle: { backgroundColor: colors.white },
+          contentStyle,
           headerTitleStyle,
           title: `Budget: ${id}`,
           headerRight: () => (
@@ -145,48 +141,58 @@ const Budget = () => {
       />
       <View>
         <View style={styles.budgetContainer}>
-          <Text title color="white">
-            {budget.title}
-          </Text>
-          <Text subtitle color="white">
-            {`Total Incomes: ${incomeSum} $`}
-          </Text>
-          <Text subtitle color="white">
-            {`Total Expenses: ${expenseSum} $`}
-          </Text>
-          <Text subtitle color="white">
-            {`Balance: ${balance} $`}
-          </Text>
-        </View>
-        <FlatList
-          data={transactions}
-          renderItem={({ item }) => (
-            <TransactionItem
-              transaction={item}
-              onLongPress={() => onLongPress(item.id)}
-              onPress={() => onPress(item)}
-            />
-          )}
-          ListEmptyComponent={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <Text>There are no transactions available yet.</Text>
-          }
-          ListHeaderComponent={
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <Text title style={styles.subtitle}>
-              Transactions
+          <View style={styles.budgetWrap}>
+            <Text title color="white">
+              {budget?.title}
             </Text>
-          }
-          style={styles.flatList}
-        />
+            <Text subtitle color="white">
+              {`Total Incomes: ${incomeSum} $`}
+            </Text>
+            <Text subtitle color="white">
+              {`Total Expenses: ${expenseSum} $`}
+            </Text>
+            <Text subtitle color="white">
+              {`Balance: ${balance} $`}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={addTransaction}
+            title="ADD TRANSACTION"
+            type="add"
+            hoveredColor={colors.addTransactionButtonHoverColor}
+            style={StyleSheet.compose(
+              globalStyles.addTransactionButton,
+              styles.addTransactionButton
+            )}
+          />
+        </View>
+        {!isDataLoading && (
+          <FlatList
+            data={transactions}
+            renderItem={({ item }) => (
+              <TransactionItem
+                transaction={item}
+                onLongPress={() => onLongPress(item.id)}
+                onPress={() => onPress(item)}
+              />
+            )}
+            ListEmptyComponent={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Text>There are no transactions available yet.</Text>
+            }
+            style={styles.flatList}
+          />
+        )}
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          onPress={addTransaction}
-          title="NEW TRANSACTION"
-          type="primary"
+      {isDataLoading && (
+        <ActivityIndicator
+          size="large"
+          color={colors.backgroundColor}
+          style={styles.activityIndicator}
         />
-      </View>
+      )}
     </View>
   );
 };
@@ -196,14 +202,20 @@ export default Budget;
 const styles = StyleSheet.create({
   activityIndicator: {
     flex: 1,
+    justifyContent: "center",
+  },
+  addTransactionButton: {
+    margin: 24,
   },
   budgetContainer: {
     backgroundColor: colors.backgroundColor,
-    padding: 20,
+    padding: 32,
+  },
+  budgetWrap: {
+    gap: 16,
   },
   buttonContainer: {
     justifyContent: "center",
-    marginBottom: 12,
   },
   container: {
     flex: 1,
@@ -212,10 +224,6 @@ const styles = StyleSheet.create({
   flatList: {
     maxHeight: 600,
     paddingTop: 2,
-  },
-  subtitle: {
-    marginLeft: 2,
-    marginVertical: 12,
   },
 });
 

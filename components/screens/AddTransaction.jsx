@@ -8,6 +8,8 @@ import SwitchSelector from "../SwitchSelector";
 import { expenseIncomeSwitchOptions } from "./UpdateTransaction";
 import { EXPENSE } from "../../consts/strings";
 import TextInput from "../TextInput";
+import { globalStyles } from "../../consts/styles";
+import colors from "../../consts/colors";
 
 const AddTransaction = () => {
   const [title, onChangeTitle] = React.useState("");
@@ -74,9 +76,11 @@ const AddTransaction = () => {
       </View>
       <View>
         <Button
-          title="SUBMIT"
+          title="ADD TRANSACTION"
           onPress={onPressAddTransaction}
           loading={loading}
+          hoveredColor={colors.addTransactionButtonHoverColor}
+          style={globalStyles.addTransactionButton}
         />
         {error && <Text>{error}</Text>}
       </View>
