@@ -48,6 +48,7 @@ const UpdateBudget = () => {
         title="UPDATE BUDGET"
         onPress={onPressUpdateBudget}
         loading={loading}
+        variant="action"
       />
       {error && <Text>{error}</Text>}
     </View>

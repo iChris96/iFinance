@@ -79,8 +79,7 @@ const AddTransaction = () => {
           title="ADD TRANSACTION"
           onPress={onPressAddTransaction}
           loading={loading}
-          hoveredColor={colors.addTransactionButtonHoverColor}
-          style={globalStyles.addTransactionButton}
+          variant="action"
         />
         {error && <Text>{error}</Text>}
       </View>

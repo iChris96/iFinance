@@ -77,6 +77,7 @@ const UpdateTransaction = () => {
         title="UPDATE TRANSACTION"
         onPress={onPressUpdateTransaction}
         loading={loading}
+        variant="action"
       />
       {error && <Text>{error}</Text>}
     </View>

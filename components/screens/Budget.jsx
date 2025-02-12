@@ -10,11 +10,7 @@ import React from "react";
 import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 
 import colors from "../../consts/colors";
-import {
-  headerTitleStyle,
-  contentStyle,
-  globalStyles,
-} from "../../consts/styles";
+import { headerTitleStyle, contentStyle } from "../../consts/styles";
 import ApiService from "../../network/apiService";
 import NavigatorButton from "../NavigatorButton";
 import TransactionItem from "../TransactionItem";
@@ -145,14 +141,23 @@ const Budget = () => {
             <Text title color="white">
               {budget?.title}
             </Text>
-            <Text subtitle color="white">
-              {`Total Incomes: ${incomeSum} $`}
+            <Text subtitle color="income">
+              Total Incomes:
+              <Text subtitle color="income" bold>
+                {` $${incomeSum}`}
+              </Text>
+            </Text>
+            <Text subtitle color="expense">
+              Total Expenses:
+              <Text subtitle color="expense" bold>
+                {` $${expenseSum}`}
+              </Text>
             </Text>
             <Text subtitle color="white">
-              {`Total Expenses: ${expenseSum} $`}
-            </Text>
-            <Text subtitle color="white">
-              {`Balance: ${balance} $`}
+              Balance:
+              <Text subtitle color="white" bold>
+                {` $${balance}`}
+              </Text>
             </Text>
           </View>
         </View>
@@ -160,12 +165,8 @@ const Budget = () => {
           <Button
             onPress={addTransaction}
             title="ADD TRANSACTION"
-            type="add"
-            hoveredColor={colors.addTransactionButtonHoverColor}
-            style={StyleSheet.compose(
-              globalStyles.addTransactionButton,
-              styles.addTransactionButton
-            )}
+            variant="action"
+            width="auto"
           />
         </View>
         {!isDataLoading && (
@@ -204,18 +205,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  addTransactionButton: {
-    margin: 24,
-  },
   budgetContainer: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.backgroundColorDark,
     padding: 32,
   },
   budgetWrap: {
     gap: 16,
   },
   buttonContainer: {
+    alignItems: "center",
     justifyContent: "center",
+    padding: 32,
   },
   container: {
     flex: 1,

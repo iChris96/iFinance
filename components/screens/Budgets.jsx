@@ -13,12 +13,11 @@ import ApiService from "../../network/apiService";
 import Text from "../Text";
 import Button from "../Button";
 import alert from "../Alert";
-import { globalStyles } from "../../consts/styles";
 
 const getData = async () => ApiService.getCall("/budgets");
 
 const Budgets = () => {
-  const [budgets, setBudgets] = React.useState([]);
+  const [budgets, setBudgets] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   const addBudget = () => {
@@ -83,7 +82,7 @@ const Budgets = () => {
     }, [])
   );
 
-  if (loading) {
+  if (loading && !budgets) {
     return (
       <ActivityIndicator
         size="large"
@@ -99,12 +98,8 @@ const Budgets = () => {
         <Button
           onPress={addBudget}
           title="ADD BUDGET"
-          rounded={false}
-          hoveredColor={colors.addBudgetButtonHoverColor}
-          style={StyleSheet.compose(
-            globalStyles.addBudgetButton,
-            styles.addBudgetButton
-          )}
+          variant="action"
+          width="auto"
         />
       </View>
       <View style={{ ...styles.flatListContainer }}>
@@ -133,9 +128,6 @@ const styles = StyleSheet.create({
   activityIndicator: {
     flex: 1,
   },
-  addBudgetButton: {
-    height: 100,
-  },
   container: {
     height: "100%",
     justifyContent: "space-evenly",
@@ -148,11 +140,13 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   headerContainer: {
+    alignItems: "center",
     justifyContent: "center",
+    padding: 16,
   },
   item: {
     alignItems: "center",
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.backgroundColorDark,
     borderRadius: 6,
     height: ITEM_HEIGHT,
     justifyContent: "center",

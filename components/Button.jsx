@@ -1,63 +1,53 @@
 import React from "react";
-import {
-  StyleSheet,
-  Pressable,
-  Platform,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import colors from "../consts/colors";
 import Text from "./Text";
 
-const getHoveredStyle = (hovered, hoveredColor) => {
-  if (Platform.OS !== "web" || !hovered) {
-    return {};
-  }
-
-  return { backgroundColor: hoveredColor };
+const variantStyles = {
+  primary: { backgroundColor: colors.primaryButtonBackgroundColor },
+  secondary: { backgroundColor: colors.white, borderWidth: 1 },
+  action: {
+    backgroundColor: colors.actionButtonBackgroundColor,
+  },
 };
 
-const getButtonStyles = ({
-  style,
-  hovered,
-  pressed,
-  rounded,
-  hoveredColor,
-}) => [
-  styles.button,
-  rounded && styles.rounded,
-  pressed && { transform: [{ scale: 0.98 }], opacity: 0.9 },
-  style,
-  getHoveredStyle(hovered, hoveredColor),
-];
+const variantTextStyles = {
+  primary: { color: colors.white },
+  secondary: { color: colors.black },
+  action: { color: colors.white },
+};
+
+const widthStyles = {
+  full: { width: "100%" },
+  auto: { width: "auto" },
+};
 
 const Button = ({
   onPress,
   title,
-  disabled = false,
-  style = {},
   loading = false,
   rounded = true,
-  hoveredColor = colors.primaryButtonHoverColor,
-  textColor = "white",
+  variant = "primary",
+  width = "full",
 }) => (
-  <Pressable
-    style={
-      ({ hovered, pressed }) =>
-        getButtonStyles({ style, hovered, pressed, rounded, hoveredColor })
-      // eslint-disable-next-line react/jsx-curly-newline
-    }
+  <TouchableOpacity
+    style={[
+      styles.button,
+      variantStyles[variant],
+      rounded && styles.rounded,
+      widthStyles[width],
+    ]}
     onPress={onPress}
-    disabled={disabled}
   >
     {loading ? (
       <ActivityIndicator size="small" color="white" />
     ) : (
-      <Text subtitle color={textColor} style={styles.text}>
+      <Text subtitlestyle={styles.text} style={variantTextStyles[variant]}>
         {title}
       </Text>
     )}
-  </Pressable>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -68,6 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 32,
     paddingVertical: 12,
+    width: "100%",
   },
   rounded: {
     borderRadius: 6,
@@ -83,13 +74,8 @@ export default Button;
 Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
-  hoveredColor: PropTypes.string,
-  disabled: PropTypes.bool,
-  style: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.arrayOf(PropTypes.object),
-  ]),
   loading: PropTypes.bool,
   rounded: PropTypes.bool,
-  textColor: PropTypes.string,
+  variant: PropTypes.oneOf(["primary", "secondary", "action"]),
+  width: PropTypes.oneOf(["auto", "full"]),
 };

@@ -23,10 +23,5 @@ export default {
   primaryButtonHoverColor: "rgb(41, 41, 41)",
   secondaryButtonBackgroundColor: "rgb(249, 249, 249)",
   secondaryButtonHoverColor: "rgb(206, 206, 206)",
-  addButtonBackgroundColor: "rgb(255, 195, 43)",
-  addButtonHoverColor: "rgb(255, 190, 27)",
-  addBudgetButtonBackgroundColor: BUDGET_COLOR_DARK,
-  addBudgetButtonHoverColor: "rgb(33, 112, 191)",
-  addTransactionButtonBackgroundColor: "rgb(104, 101, 238)",
-  addTransactionButtonHoverColor: "rgb(86, 84, 207)",
+  actionButtonBackgroundColor: "rgb(255, 66, 101)",
 };

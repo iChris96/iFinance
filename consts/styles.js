@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import colors from "./colors";
 
 export const headerTitleStyle = { fontFamily: "Montserrat-Bold" };
 
@@ -10,11 +9,4 @@ export const contentStyle = {
   maxWidth: 1000,
 };
 
-export const globalStyles = StyleSheet.create({
-  addBudgetButton: {
-    backgroundColor: colors.addBudgetButtonBackgroundColor,
-  },
-  addTransactionButton: {
-    backgroundColor: colors.addTransactionButtonBackgroundColor,
-  },
-});
+export const globalStyles = StyleSheet.create({});

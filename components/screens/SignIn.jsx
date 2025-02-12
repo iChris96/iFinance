@@ -18,25 +18,10 @@ const SignIn = () => {
   const onChangePassword = (text) => setPassword(text);
 
   const onSubmit = async () => {
-    const { baseURL } = Constants.expoConfig.extra;
     try {
       setLoading(true);
-      const body = { email, password };
-      const response = await fetch(`${baseURL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
-      if (![200, 201].includes(response.status)) {
-        throw new Error("Invalid Credentials");
-      }
-      const responseJson = await response.json();
-
-      const { access_token: token, username } = responseJson;
-      console.log({ token, username });
-      signIn({ token, username });
+      const loginResponse = await loginRequest(email, password);
+      signIn(loginResponse);
     } catch (error) {
       console.log({ error });
       setErrorMessage(error.message);
@@ -50,8 +35,6 @@ const SignIn = () => {
       router.replace("/app");
     }
   }, [session]);
-
-  console.log("test");
 
   return (
     <View style={{ ...styles.container }}>
@@ -97,15 +80,33 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     borderRadius: 4,
     maxWidth: 700,
-    padding: 24,
+    padding: 40,
     width: "100%",
   },
   inputWrapper: {
     alignSelf: "center",
+    gap: 8,
     maxWidth: 450,
     width: "100%",
   },
-  title: {
-    marginBottom: 14,
-  },
 });
+
+const loginRequest = async (email, password) => {
+  const body = { email, password };
+  const { baseURL } = Constants.expoConfig.extra;
+  const response = await fetch(`${baseURL}/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (![200, 201].includes(response.status)) {
+    throw new Error("Invalid Credentials");
+  }
+  const responseJson = await response.json();
+
+  const { access_token: token, username } = responseJson;
+
+  return { token, username };
+};

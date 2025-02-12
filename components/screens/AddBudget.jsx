@@ -53,8 +53,7 @@ const AddBudget = () => {
           title="ADD BUDGET"
           onPress={onPressAddBudget}
           loading={loading}
-          hoveredColor={colors.addBudgetButtonHoverColor}
-          style={globalStyles.addBudgetButton}
+          variant="action"
         />
         {error && <Text>{error}</Text>}
       </View>

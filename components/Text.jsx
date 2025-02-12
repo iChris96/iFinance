@@ -10,6 +10,7 @@ const Text = ({ children, style = {}, color = "black", ...props }) => {
     ...(props.subtitle && styles.subtitle),
     ...(props.title && styles.title),
     ...(props.hero && styles.hero),
+    ...(props.bold && styles.bold),
     ...{ color: colors[color] },
     ...style,
   };
@@ -19,6 +20,9 @@ const Text = ({ children, style = {}, color = "black", ...props }) => {
 export default Text;
 
 const styles = StyleSheet.create({
+  bold: {
+    fontFamily: "Montserrat-Bold",
+  },
   hero: {
     alignSelf: "center",
     fontSize: 38,

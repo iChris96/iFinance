@@ -10,7 +10,7 @@ const SettingsScreen = () => {
   return (
     <View style={styles.container}>
       <Text subtitle>{`Hello ${session?.username}!`}</Text>
-      <Button onPress={signOut} title="SIGN OUT" type="secondary" />
+      <Button onPress={signOut} title="SIGN OUT" variant="secondary" />
     </View>
   );
 };
