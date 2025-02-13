@@ -146,7 +146,7 @@ const Budget = () => {
           ),
         }}
       />
-      <View>
+      <View style={{ ...styles.contentContainer }}>
         <View style={styles.budgetContainer}>
           <View style={styles.budgetWrap}>
             <View style={{ ...styles.titleContainer }}>
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
+  },
+  contentContainer: {
+    flex: 1,
   },
   flatList: {
     maxHeight: 600,
