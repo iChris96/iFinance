@@ -1,20 +1,23 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
-import Text from "../Text";
 import Button from "../Button";
+import Text from "../Text";
 import TextInput from "../TextInput";
 
 const UpdateBudget = () => {
-  const { id, title } = useLocalSearchParams();
-  const [text, onChangeText] = React.useState(title ?? "");
+  const budgetParams = useLocalSearchParams();
+  const [title, onChangeTitle] = React.useState(budgetParams.title ?? "");
+  const [amount, onChangeAmount] = React.useState(
+    budgetParams.amount ?? "0.00"
+  );
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const router = useRouter();
 
   const onPressUpdateBudget = () => {
-    if (!text) {
+    if (!title) {
       setError("Title is missing");
       return;
     }
@@ -23,7 +26,10 @@ const UpdateBudget = () => {
       setLoading(true);
 
       try {
-        await ApiService.patchCall(`/budgets/${id}`, { title: text });
+        await ApiService.patchCall(`/budgets/${budgetParams.id}`, {
+          title,
+          amount: parseFloat(amount).toFixed(2),
+        });
         router.back();
       } catch (err) {
         console.log({ err });
@@ -38,19 +44,35 @@ const UpdateBudget = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Title"
-      />
-      <Button
-        title="UPDATE BUDGET"
-        onPress={onPressUpdateBudget}
-        loading={loading}
-        variant="action"
-      />
-      {error && <Text>{error}</Text>}
+      <View>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeTitle}
+          value={title}
+          placeholder="Title"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => {
+            onChangeAmount(
+              text.replace(/[^0-9.]/g, "").replace(/(\.\d{2})\d+/g, "$1")
+            );
+          }}
+          maxLength={8}
+          value={amount}
+          placeholder="Amount"
+          keyboardType="numeric"
+        />
+      </View>
+      <View>
+        <Button
+          title="UPDATE BUDGET"
+          onPress={onPressUpdateBudget}
+          loading={loading}
+          variant="action"
+        />
+        {error && <Text>{error}</Text>}
+      </View>
     </View>
   );
 };

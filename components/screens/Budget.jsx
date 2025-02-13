@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react/prop-types */
 import {
@@ -7,41 +10,48 @@ import {
   useLocalSearchParams,
 } from "expo-router";
 import React from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 
 import colors from "../../consts/colors";
-import { headerTitleStyle, contentStyle } from "../../consts/styles";
-import ApiService from "../../network/apiService";
-import NavigatorButton from "../NavigatorButton";
-import TransactionItem from "../TransactionItem";
-import Text from "../Text";
-import Button from "../Button";
 import { EXPENSE, INCOME } from "../../consts/strings";
+import { contentStyle, headerTitleStyle } from "../../consts/styles";
+import ApiService from "../../network/apiService";
 import alert from "../Alert";
+import Button from "../Button";
+import NavigatorButton from "../NavigatorButton";
+import ProgressBar from "../ProgressBar";
+import Text from "../Text";
+import TransactionItem from "../TransactionItem";
 
 const Budget = () => {
   const { id } = useLocalSearchParams();
-  const [budget, setBudget] = React.useState({ title: "" });
+  const [budget, setBudget] = React.useState({ title: "", amount: 0 });
   const [transactions, setTransactions] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const { incomeSum, expenseSum, balance } = React.useMemo(
-    () =>
-      transactions.reduce(
-        (acc, item) => {
-          const amount = parseFloat(item.amount) || 0;
-          if (item.type === INCOME) {
-            acc.incomeSum += amount;
-          } else if (item.type === EXPENSE) {
-            acc.expenseSum += amount;
-          }
-          acc.balance = acc.incomeSum - acc.expenseSum;
-          return acc;
-        },
-        { incomeSum: 0, expenseSum: 0, balance: 0 }
-      ),
-    [transactions]
-  );
+  const { incomeSum, expenseSum, balance, fullAmount } = React.useMemo(() => {
+    const initialValues = { incomeSum: 0, expenseSum: 0, balance: 0 };
+
+    const result = transactions.reduce((acc, item) => {
+      const amount = parseFloat(item.amount) || 0;
+
+      if (item.type === INCOME) {
+        acc.incomeSum += amount;
+      } else if (item.type === EXPENSE) {
+        acc.expenseSum += amount;
+      }
+
+      return acc;
+    }, initialValues);
+
+    // console.log({ budgetAmount, bmount: parseFloat(budget.amount), result });
+
+    const amountWithExtras = parseFloat(budget.amount) + result.incomeSum;
+    result.balance = (amountWithExtras - result.expenseSum).toFixed(2);
+    result.fullAmount = amountWithExtras;
+
+    return result;
+  }, [transactions, budget]);
 
   const addTransaction = () =>
     router.push(
@@ -122,14 +132,15 @@ const Budget = () => {
     <View style={styles.container}>
       <Stack.Screen
         options={{
+          headerShown: true,
+          title: "",
           contentStyle,
           headerTitleStyle,
-          title: `Budget: ${id}`,
           headerRight: () => (
             <NavigatorButton
               pathname="./update-budget"
               title="Edit"
-              params={{ id, title: budget?.title }}
+              params={{ id, title: budget?.title, amount: budget?.amount }}
               relativeToDirectory
             />
           ),
@@ -138,27 +149,42 @@ const Budget = () => {
       <View>
         <View style={styles.budgetContainer}>
           <View style={styles.budgetWrap}>
-            <Text title color="white">
-              {budget?.title}
-            </Text>
-            <Text subtitle color="income">
-              Total Incomes:
-              <Text subtitle color="income" bold>
-                {` $${incomeSum}`}
+            <View style={{ ...styles.titleContainer }}>
+              <Text title color="white">
+                {budget?.title}
+              </Text>
+            </View>
+            <Text subtitle color="white">
+              Budget Amount:
+              <Text subtitle color="white" bold>
+                {` $${budget?.amount}`}
               </Text>
             </Text>
-            <Text subtitle color="expense">
+            <Text subtitle color="white">
               Total Expenses:
               <Text subtitle color="expense" bold>
                 {` $${expenseSum}`}
               </Text>
             </Text>
             <Text subtitle color="white">
-              Balance:
-              <Text subtitle color="white" bold>
-                {` $${balance}`}
+              Total Incomes:
+              <Text subtitle color="income" bold>
+                {` $${incomeSum}`}
               </Text>
             </Text>
+          </View>
+          <View style={{ ...styles.progressBarContainer }}>
+            <Text hero color="white">
+              {`$${balance} `}
+              <Text subtitle color="white" bold>
+                {expenseSum > fullAmount ? "over" : "left"}
+              </Text>
+            </Text>
+            <ProgressBar current={expenseSum} total={fullAmount} />
+            <Text
+              light
+              color="white"
+            >{`$${expenseSum} of $${fullAmount} spent`}</Text>
           </View>
         </View>
         <View style={styles.buttonContainer}>
@@ -169,6 +195,7 @@ const Budget = () => {
             width="auto"
           />
         </View>
+
         {!isDataLoading && (
           <FlatList
             data={transactions}
@@ -207,11 +234,10 @@ const styles = StyleSheet.create({
   },
   budgetContainer: {
     backgroundColor: colors.backgroundColorDark,
+    gap: 40,
     padding: 32,
   },
-  budgetWrap: {
-    gap: 16,
-  },
+  budgetWrap: {},
   buttonContainer: {
     alignItems: "center",
     justifyContent: "center",
@@ -224,6 +250,12 @@ const styles = StyleSheet.create({
   flatList: {
     maxHeight: 600,
     paddingTop: 2,
+  },
+  progressBarContainer: {
+    gap: 4,
+  },
+  titleContainer: {
+    marginBottom: 8,
   },
 });
 

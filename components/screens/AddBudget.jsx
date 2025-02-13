@@ -1,22 +1,26 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useRouter } from "expo-router";
 import ApiService from "../../network/apiService";
-import Text from "../Text";
 import Button from "../Button";
+import Text from "../Text";
 import TextInput from "../TextInput";
-import colors from "../../consts/colors";
-import { globalStyles } from "../../consts/styles";
 
 const AddBudget = () => {
-  const [text, onChangeText] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [amount, setAmount] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(false);
   const router = useRouter();
 
   const onPressAddBudget = () => {
-    if (!text) {
+    if (!title) {
       setError("Title is missing");
+      return;
+    }
+
+    if (!amount) {
+      setError("Amount is missing");
       return;
     }
 
@@ -24,7 +28,10 @@ const AddBudget = () => {
       setLoading(true);
 
       try {
-        const { id } = await ApiService.postCall("/budgets", { title: text });
+        const { id } = await ApiService.postCall("/budgets", {
+          title,
+          amount: parseFloat(amount).toFixed(2),
+        });
         router.replace(
           { pathname: "../budget/[id]", params: { id } },
           { relativeToDirectory: true }
@@ -42,12 +49,26 @@ const AddBudget = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="Title"
-      />
+      <View>
+        <TextInput
+          style={styles.input}
+          onChangeText={setTitle}
+          value={title}
+          placeholder="Title"
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) => {
+            setAmount(
+              text.replace(/[^0-9.]/g, "").replace(/(\.\d{2})\d+/g, "$1")
+            );
+          }}
+          maxLength={8}
+          value={amount}
+          placeholder="Amount"
+          keyboardType="numeric"
+        />
+      </View>
       <View>
         <Button
           title="ADD BUDGET"

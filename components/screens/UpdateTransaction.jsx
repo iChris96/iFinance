@@ -1,12 +1,13 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import ApiService from "../../network/apiService";
-import Text from "../Text";
-import Button from "../Button";
-import SwitchSelector from "../SwitchSelector";
 import colors from "../../consts/colors";
 import { EXPENSE, INCOME } from "../../consts/strings";
+import ApiService from "../../network/apiService";
+import { formatAmount } from "../../utils/strings";
+import Button from "../Button";
+import SwitchSelector from "../SwitchSelector";
+import Text from "../Text";
 import TextInput from "../TextInput";
 
 const UpdateTransaction = () => {
@@ -61,7 +62,7 @@ const UpdateTransaction = () => {
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangeAmount(text.replace(/[^0-9]/g, ""))}
+          onChangeText={(text) => onChangeAmount(formatAmount(text))}
           maxLength={8}
           value={amount}
           placeholder="Amount"
