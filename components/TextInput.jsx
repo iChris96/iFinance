@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1,
     fontFamily: "Montserrat-Regular",
+    fontSize: 16,
     height: 40,
     marginVertical: 4,
     padding: 10,
