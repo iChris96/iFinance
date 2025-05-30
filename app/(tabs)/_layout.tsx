@@ -1,13 +1,17 @@
-import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
 
 export default function TabLayout() {
+  console.log("TabLayout");
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+    <Tabs
+      screenOptions={{ tabBarActiveTintColor: "blue" }}
+      initialRouteName="home"
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: "Inicio",
+          title: "Home",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
@@ -23,18 +27,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="cards"
-        options={{
-          title: "Tarjetas",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="card" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="settings"
         options={{
-          title: "Configuración",
+          title: "Settings",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" color={color} size={size} />
           ),
