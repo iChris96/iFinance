@@ -11,7 +11,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set) => ({
   token: null,
-  isAuthenticated: false,
+  isAuthenticated: null,
   signIn: async (token) => {
     await AsyncStorage.setItem("token", token);
     set({ token, isAuthenticated: true });
@@ -25,6 +25,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (token) {
       console.log({ auth: token });
       set({ token, isAuthenticated: true });
+      return;
     }
     console.log({ noAuth: token });
     set({ token: null, isAuthenticated: false });
